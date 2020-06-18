@@ -1,0 +1,5 @@
+allow installd op1_file:filesystem quotaget;
+
+allow installd firmware_file:filesystem quotaget;
+
+

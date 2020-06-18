@@ -1,0 +1,14 @@
+allow platform_app sysfs_battery_supply:dir r_dir_perms;
+allow platform_app sysfs_battery_supply:file r_file_perms;
+
+allow platform_app vendor_camera_prop:file { read open getattr map };
+
+allow platform_app adsprpcd_file:dir { getattr search read };
+allow platform_app hal_camera:binder { call transfer };
+allow platform_app oem_file:dir search;
+allow platform_app sysfs_kgsl:file { getattr open read };
+allow platform_app sysfs_net:dir search;
+allow platform_app sysfs_net:file { open read };
+
+allow platform_app adsprpcd_file:file r_file_perms;
+
