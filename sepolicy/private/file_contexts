@@ -7,6 +7,7 @@
 
 #/system/etc/audio_policy_configuration_omni.xml    u:object_r:vendor_configs_file:s0
 /system/lib/modules/wlan.ko    u:object_r:vendor_file:s0
+/product/vendor_overlay/29/lib/modules(/.*)?     u:object_r:vendor_file:s0
 
 /data/misc/omni/client_package_name                u:object_r:omni_data_file:s0
 

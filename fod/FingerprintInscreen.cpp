@@ -140,6 +140,7 @@ Return<void> FingerprintInscreen::onShowFODView() {
     set(NATIVE_DISPLAY_WIDE, 1);
 
     this->mFodCircleVisible = true;
+    this->mVendorDisplayService->setMode(OP_DISPLAY_SET_DIM, 1);
 
     return Void();
 }
@@ -230,7 +231,7 @@ Return<void> FingerprintInscreen::setCallback(const sp<IFingerprintInscreenCallb
 }
 
 Return<int32_t> FingerprintInscreen::getPositionX() {
-    return 560;
+    return 572;
 }
 
 Return<int32_t> FingerprintInscreen::getPositionY() {

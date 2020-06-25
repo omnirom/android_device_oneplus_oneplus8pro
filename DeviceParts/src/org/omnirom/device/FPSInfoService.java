@@ -91,7 +91,7 @@ public class FPSInfoService extends Service {
             super(c);
             float density = c.getResources().getDisplayMetrics().density;
             int paddingPx = Math.round(5 * density);
-            setPadding(paddingPx, paddingPx+ 48, paddingPx, paddingPx);
+            setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
             setBackgroundColor(Color.argb(0x60, 0, 0, 0));
 
             final int textSize = Math.round(12 * density);
@@ -150,7 +150,7 @@ public class FPSInfoService extends Service {
             int top = mPaddingTop + 2;
             int bottom = mPaddingTop + mFH - 2;
 
-            int y = 40 + mPaddingTop - (int)mAscent;
+            int y = mPaddingTop - (int)mAscent;
 
             String s=getFPSInfoString();
             canvas.drawText(s, LEFT-mPaddingLeft-mMaxWidth,
@@ -164,7 +164,7 @@ public class FPSInfoService extends Service {
             }
 
             int neededWidth = mPaddingLeft + mPaddingRight + mMaxWidth;
-            int neededHeight = mPaddingTop + mPaddingBottom + 20;
+            int neededHeight = mPaddingTop + mPaddingBottom + 40;
             if (neededWidth != mNeededWidth || neededHeight != mNeededHeight) {
                 mNeededWidth = neededWidth;
                 mNeededHeight = neededHeight;
@@ -218,6 +218,7 @@ public class FPSInfoService extends Service {
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|
             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
             PixelFormat.TRANSLUCENT);
+        params.y=48;
         params.gravity = Gravity.LEFT | Gravity.TOP;
         params.setTitle("FPS Info");
 

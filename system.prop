@@ -83,7 +83,7 @@ telephony.lteOnCdmaDevice=1
 persist.fuse_sdcard=true
 
 #System props for BT
-#ro.bluetooth.library_name=libbluetooth_qti.so
+ro.bluetooth.library_name=libbluetooth_qti.so
 persist.vendor.btstack.aac_frm_ctl.enabled=true
 
 #
@@ -176,7 +176,7 @@ ro.kernel.qemu.gles=0
 qemu.hw.mainkeys=0
 
 #Expose aux camera for below packages
-vendor.camera.aux.packagelist=org.codeaurora.snapcam,com.oneplus.camera,org.omnirom,snap
+vendor.camera.aux.packagelist=org.codeaurora.snapcam,com.oneplus.camera,org.omnirom.snap
 
 #Whitelisting the below packages
 persist.vendor.camera.privapp.list=org.codeaurora.snapcam
@@ -280,6 +280,5 @@ ro.vibrator.hal.click.duration=0
 ro.vibrator.hal.heavyclick.duration=10
 persist.radio.physical.slot.count=2
 
-ro.sf.lcd_density=540
 #HWC
 persist.vendor.color.matrix=2

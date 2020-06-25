@@ -226,10 +226,10 @@ lib/rfsa/adsp/libtracker_6dof_skel_8250.so
 
 -app/OPSoundTuner/OPSoundTuner.apk|e1f26cf85f9c9882f7ae47edaf49a66cc7849d54
 
-#-app/NxpNfcNci/NxpNfcNci.apk|88df5ea34fa5f915eb0779d56dcb48e52510fbc6
+-app/NxpNfcNci/NxpNfcNci.apk|acb45c0f0fb12508fd2e3849d24eb23c791b8ed0
 #-app/NxpSecureElement/NxpSecureElement.apk|8ebef08b843d5aa09d784e0f517ea3cbb23fc9d4
-#-framework/com.nxp.nfc.jar
-#etc/permissions/com.nxp.nfc.xml
+-framework/com.nxp.nfc.jar
+etc/permissions/com.nxp.nfc.xml
 lib64/libnxpnfc_nci_jni.so
 lib64/libnxpnfc-nci.so
 lib/libnxpnfc-nci.so
