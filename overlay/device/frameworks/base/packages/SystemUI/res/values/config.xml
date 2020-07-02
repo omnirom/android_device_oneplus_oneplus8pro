@@ -25,6 +25,6 @@
     <integer name="config_maxVisibleNotificationIconsWhenDark">10</integer>
 
     <!-- Color of the FOD view -->
-    <color name="config_fodColor">#FFFFC8</color>
+    <color name="config_fodColor">#FFFFFFE5</color>
 </resources>
 

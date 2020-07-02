@@ -214,3 +214,4 @@ PRODUCT_BOOT_JARS += oneplus8-mock
 TARGET_FS_CONFIG_GEN := device/oneplus/oneplus8pro/config.fs
 
 $(call inherit-product, build/make/target/product/gsi_keys.mk)
+

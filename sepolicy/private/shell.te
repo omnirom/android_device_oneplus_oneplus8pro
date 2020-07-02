@@ -1,0 +1,4 @@
+allow shell hal_tetheroffload:file getattr;
+allow shell boottime_prop:property_service set;
+
+allow shell exported_system_radio_prop:property_service set;

@@ -71,8 +71,8 @@ public class KeyHandler implements DeviceKeyHandler {
     private static final int GESTURE_CIRCLE = 250;
     private static final int GESTURE_UP_ARROW = 252;
     private static final int GESTURE_TWO_SWIPE_DOWN = 251;
-    private static final int GESTURE_LEFT_V = 253;
-    private static final int GESTURE_RIGHT_V = 254;
+    private static final int GESTURE_LEFT_V = 254;
+    private static final int GESTURE_RIGHT_V = 253;
     private static final int GESTURE_M = 247;
     private static final int GESTURE_W = 246;
     private static final int GESTURE_S = 248;
@@ -158,7 +158,7 @@ public class KeyHandler implements DeviceKeyHandler {
     private SensorEventListener mPocketProximitySensor = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent event) {
-            boolean pocketProxyIsNear = event.values[0] == 0;
+            boolean pocketProxyIsNear = event.values[0] == 1;
 
             if (DEBUG_SENSOR) Log.i(TAG, "pocketProxyIsNear = " + pocketProxyIsNear);
             if (mUseWaveCheck || mUsePocketCheck) {
@@ -185,7 +185,7 @@ public class KeyHandler implements DeviceKeyHandler {
     private SensorEventListener mProximitySensor = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent event) {
-            mProxyIsNear = event.values[0] < event.sensor.getMaximumRange();
+            mProxyIsNear = event.values[0] == 1;
             if (DEBUG_SENSOR) Log.i(TAG, "mProxyIsNear = " + mProxyIsNear);
         }
 
@@ -640,12 +640,12 @@ public class KeyHandler implements DeviceKeyHandler {
 
     @Override
     public boolean getCustomProxiIsNear(SensorEvent event) {
-        return event.values[0] == 0;
+        return event.values[0] == 1;
     }
 
     @Override
     public String getCustomProxiSensor() {
         return "com.oneplus.pocket";
     }
-
 }
+

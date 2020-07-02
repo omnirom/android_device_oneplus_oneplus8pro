@@ -179,8 +179,8 @@ qemu.hw.mainkeys=0
 vendor.camera.aux.packagelist=org.codeaurora.snapcam,com.oneplus.camera,org.omnirom.snap
 
 #Whitelisting the below packages
-persist.vendor.camera.privapp.list=org.codeaurora.snapcam
-persist.camera.privapp.list=org.codeaurora.snapcam
+persist.vendor.camera.privapp.list=org.codeaurora.snapcam,com.oneplus.camera
+persist.camera.privapp.list=org.codeaurora.snapcam,com.oneplus.camera
 
 #enable IZat OptInApp overlay
 persist.vendor.overlay.izat.optin=rro
@@ -253,19 +253,22 @@ vendor.display.enable_rotator_ui=1
 
 
 #omni
-ro.surface_flinger.protected_contents=true
-ro.surface_flinger.use_smart_90_for_video=true
-ro.surface_flinger.set_display_power_timer_ms=0
-ro.surface_flinger.set_touch_timer_ms=5000
-ro.surface_flinger.set_idle_timer_ms=0
+#ro.surface_flinger.protected_contents=true
+#ro.surface_flinger.use_smart_90_for_video=true
+#ro.surface_flinger.set_display_power_timer_ms=0
+#ro.surface_flinger.set_touch_timer_ms=5000
+#ro.surface_flinger.set_idle_timer_ms=0
 ro.vendor.qti.va_aosp.support=1
 ro.apex.updatable=true
 ro.camera.notify_nfc=0
 ro.boot.project_name=19811
 ro.vendor.boot.project_name=19811
 persist.vendor.sys.fp.fod.location.X_Y=605,2613
+persist.data.iwlan.enable=true
 
 #persist.sys.camera.preview.size=1920x1080
+
+#persist.sys.display.iris.absent=1
 
 persist.vendor.radio.aosp_usr_pref_sel=true
 persist.vendor.radio.add_power_save=false

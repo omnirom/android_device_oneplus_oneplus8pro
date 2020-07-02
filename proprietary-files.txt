@@ -275,3 +275,6 @@ lib/libsdsprpc_system.so
 lib/libsns_device_mode_stub.so
 lib/libsns_fastRPC_util.so
 
+-app/EngineeringMode/EngineeringMode.apk
+-app/EngSpecialTest/EngSpecialTest.apk
+etc/sys_secrecy_switch_list.xml

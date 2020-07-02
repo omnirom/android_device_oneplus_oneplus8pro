@@ -23,3 +23,4 @@ ro.camera.res.fmq.size u:object_r:exported_system_prop:s0 exact int
 ro.camera.req.fmq.size u:object_r:exported_system_prop:s0 exact int
 
 persist.camera.bokeh.scale u:object_r:exported_system_prop:s0 exact int
+persist.sys.display.iris.absent u:object_r:boottime_prop:s0 exact int

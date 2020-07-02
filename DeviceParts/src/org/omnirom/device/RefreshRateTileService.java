@@ -80,6 +80,8 @@ public class RefreshRateTileService extends TileService {
             sharedPrefs.edit().putBoolean(DeviceSettings.KEY_REFRESH_RATE, enabled ? false : true).commit();
             Settings.System.putFloat(this.getContentResolver(),
                     Settings.System.PEAK_REFRESH_RATE, enabled ? 60f : 120f);
+            Settings.System.putFloat(this.getContentResolver(),
+                    Settings.System.MIN_REFRESH_RATE, enabled ? 60f : 120f);
             getQsTile().setIcon(Icon.createWithResource(this,
                     enabled ? R.drawable.ic_refresh_tile_60 : R.drawable.ic_refresh_tile_90));
             getQsTile().setState(enabled ? Tile.STATE_INACTIVE : Tile.STATE_ACTIVE);

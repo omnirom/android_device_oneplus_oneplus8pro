@@ -1,0 +1,5 @@
+type qti_init_shell, domain;
+
+allow qti_init_shell sysfs_oem:file setattr;
+allow qti_init_shell sysfs_dm:file write;
+allow qti_init_shell proc_swappiness:file rw_file_perms;

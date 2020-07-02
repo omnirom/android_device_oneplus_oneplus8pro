@@ -26,6 +26,7 @@
 /sys/devices/platform/soc/ae00000\.qcom,mdss_mdp/drm/card0/card0-DSI-1/native_display_p3_mode              u:object_r:omni_sysfs_drm:s0
 /sys/devices/platform/soc/ae00000\.qcom,mdss_mdp/drm/card0/card0-DSI-1/native_display_wide_color_mode      u:object_r:omni_sysfs_drm:s0
 /sys/devices/platform/soc/ae00000\.qcom,mdss_mdp/drm/card0/card0-DSI-1/night_mode                          u:object_r:omni_sysfs_drm:s0
+/sys/devices/platform/soc/ae00000\.qcom,mdss_mdp/drm/card0/card0-DSI-1/native_display_loading_effect_mode                          u:object_r:omni_sysfs_drm:s0
 /sys/devices/platform/soc/ae00000\.qcom,mdss_mdp/drm/card0/card0-DSI-1/native_display_customer_srgb_mode   u:object_r:omni_sysfs_drm:s0
 /sys/devices/platform/soc/ae00000\.qcom,mdss_mdp/drm/card0/card0-DSI-1/native_display_srgb_color_mode   u:object_r:omni_sysfs_drm:s0
 /sys/devices/platform/soc/ae00000\.qcom,mdss_mdp/drm/card0/card0-DSI-1/native_display_customer_p3_mode     u:object_r:omni_sysfs_drm:s0
@@ -33,6 +34,9 @@
 /sys/devices/platform/soc/ae00000\.qcom,mdss_mdp/drm/card0/card0-DSI-1/op_friginer_print_hbm               u:object_r:omni_sysfs_drm:s0
 /sys/devices/platform/soc/ae00000\.qcom,mdss_mdp/drm/card0/card0-DSI-1/dynamic_fps               u:object_r:omni_sysfs_drm:s0
 /sys/class/drm/sde-crtc-0/measured_fps u:object_r:omni_sysfs_drm:s0
+/sys/class/qcom-battery/fcc_stepping_in_progress u:object_r:sysfs_oem:s0
+/sys/class/qcom-battery/parallel_pct u:object_r:sysfs_oem:s0
+/sys/class/qcom-battery/restrict_chg u:object_r:sysfs_oem:s0
 
 /system/bin/hw/android\.hardware\.vibrator@1\.3-service\.oneplus8pro u:object_r:hal_omni_vibrator_exec:s0
 /system/bin/hw/omni\.biometrics\.fingerprint\.inscreen@1\.0-service\.oneplus8pro    u:object_r:hal_fod_kona_exec:s0
@@ -46,3 +50,9 @@
 /(product|system/product)/vendor_overlay/[0-9]+/bin/hw/android\.hardware\.light@2\.0-service    u:object_r:hal_light_default_exec:s0
 # Health - vendor overlay
 /(product|system/product)/vendor_overlay/[0-9]+/bin/hw/android\.hardware\.health@2\.0-service    u:object_r:hal_health_default_exec:s0
+
+/(product|system/product)/vendor_overlay/[0-9]+/bin/hw/vendor\.qti\.hardware\.display\.composer-service    u:object_r:hal_graphics_composer_default_exec:s0
+
+/(product|system/product)/vendor_overlay/[0-9]+/bin/load_wlan_driver u:object_r:vendor_file:s0
+
+/vendor/bin/ipacm-diag          u:object_r:hal_tetheroffload_default_exec:s0

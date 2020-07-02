@@ -1,0 +1,3 @@
+type time_daemon, domain;
+typeattribute time_daemon mlstrustedsubject;
+allow time_daemon sysfs:file r_file_perms;

@@ -13,3 +13,8 @@ allow system_app wfd_sys_debug_prop:file { read open getattr map };
 
 allow system_app proc_pagetypeinfo:file getattr;
 
+allow system_app wificond:binder call;
+
+allow system_app sysfs_zram:file r_file_perms;
+allow system_app logpersistd_logging_prop:file { read open getattr map };
+allow system_app logpersistd_logging_prop:property_service { set };

@@ -32,7 +32,7 @@
 
 #define OP_DISPLAY_AOD_MODE 8
 #define OP_DISPLAY_NOTIFY_PRESS 9
-#define OP_DISPLAY_SET_DIM 10
+#define OP_DISPLAY_KEYGUARD_DONE 10
 #define OP_DISPLAY_HIDE_AOD 11
 
 #define HBM_ENABLE_PATH "/sys/class/drm/card0-DSI-1/hbm"
@@ -42,6 +42,7 @@
 #define NATIVE_DISPLAY_P3 "/sys/class/drm/card0-DSI-1/native_display_p3_mode"
 #define NATIVE_DISPLAY_SRGB "/sys/class/drm/card0-DSI-1/native_display_customer_srgb_mode"
 #define NATIVE_DISPLAY_NIGHT "/sys/class/drm/card0-DSI-1/night_mode"
+#define NATIVE_DISPLAY_LOADING "/sys/class/drm/card0-DSI-1/native_display_loading_effect_mode"
 
 #define NATIVE_DISPLAY_WIDE "/sys/class/drm/card0-DSI-1/native_display_wide_color_mode"
 
@@ -104,7 +105,7 @@ Return<void> FingerprintInscreen::onFinishEnroll() {
 
 Return<void> FingerprintInscreen::onPress() {
     if (mIsEnrolling) {
-        this->mVendorDisplayService->setMode(OP_DISPLAY_SET_DIM, 8);
+        this->mVendorDisplayService->setMode(OP_DISPLAY_KEYGUARD_DONE, 2);
     }
     this->mVendorDisplayService->setMode(OP_DISPLAY_NOTIFY_PRESS, 1);
 
@@ -113,14 +114,12 @@ Return<void> FingerprintInscreen::onPress() {
 
 Return<void> FingerprintInscreen::onRelease() {
     this->mVendorDisplayService->setMode(OP_DISPLAY_NOTIFY_PRESS, 0);
-    this->mVendorDisplayService->setMode(OP_DISPLAY_SET_DIM, 5);
 
     return Void();
 }
 
 Return<void> FingerprintInscreen::onShowFODView() {
     wide = get(NATIVE_DISPLAY_WIDE, 0);
-    p3 = get(NATIVE_DISPLAY_P3, 0);
     srgb = get(NATIVE_DISPLAY_SRGB, 0);
     night = get(NATIVE_DISPLAY_NIGHT, 0);
 
@@ -137,11 +136,11 @@ Return<void> FingerprintInscreen::onShowFODView() {
     set(NATIVE_DISPLAY_P3, 0);
     set(NATIVE_DISPLAY_SRGB, 0);
     set(NATIVE_DISPLAY_NIGHT, 0);
-    set(NATIVE_DISPLAY_WIDE, 1);
+    set(NATIVE_DISPLAY_LOADING, 0);
+    set(NATIVE_DISPLAY_WIDE, 0);
 
     this->mFodCircleVisible = true;
-    this->mVendorDisplayService->setMode(OP_DISPLAY_SET_DIM, 1);
-
+    this->mVendorDisplayService->setMode(OP_DISPLAY_KEYGUARD_DONE, 1);
     return Void();
 }
 
@@ -162,10 +161,10 @@ Return<void> FingerprintInscreen::onHideFODView() {
     set(NATIVE_DISPLAY_P3, p3);
     set(NATIVE_DISPLAY_SRGB, srgb);
     set(NATIVE_DISPLAY_NIGHT, night);
+    set(NATIVE_DISPLAY_LOADING, 0);
     set(DC_DIM_PATH, dcDimState);
 
-    this->mVendorDisplayService->setMode(OP_DISPLAY_SET_DIM, 0);
-    this->mVendorDisplayService->setMode(OP_DISPLAY_NOTIFY_PRESS, 0);
+    this->mVendorDisplayService->setMode(OP_DISPLAY_KEYGUARD_DONE, 0);
     return Void();
 }
 

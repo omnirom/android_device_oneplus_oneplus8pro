@@ -9,7 +9,7 @@
 -product/app/imssettings/imssettings.apk
 -product/framework/com.qti.dpmframework.jar
 -product/app/datastatusnotification/datastatusnotification.apk
--product/priv-app/ims/ims.apk|dc485154a51f48e90ee88511cd9931cd5a991621
+-product/priv-app/ims/ims.apk|dfa49791f789d640e83f1d621fb283ae850b8474
 product/lib64/vendor.qti.gnss@3.0.so
 product/lib64/vendor.qti.imsrtpservice@2.1.so
 product/lib/vendor.qti.imsrtpservice@2.1.so
@@ -214,11 +214,13 @@ product/lib/vendor.qti.hardware.radio.qtiradio@1.0.so
 product/lib/vendor.qti.hardware.radio.qtiradio@2.2.so
 product/lib/vendor.qti.hardware.radio.qtiradio@2.1.so
 product/lib/vendor.qti.hardware.radio.qtiradio@2.3.so
+product/lib/vendor.qti.hardware.radio.qtiradio@2.4.so
 product/lib64/vendor.qti.hardware.radio.qtiradio@2.0.so
 product/lib64/vendor.qti.hardware.radio.qtiradio@1.0.so
 product/lib64/vendor.qti.hardware.radio.qtiradio@2.2.so
 product/lib64/vendor.qti.hardware.radio.qtiradio@2.1.so
 product/lib64/vendor.qti.hardware.radio.qtiradio@2.3.so
+product/lib64/vendor.qti.hardware.radio.qtiradio@2.4.so
 
 product/lib64/com.qualcomm.qti.bluetooth_audio@1.0.so
 product/lib/com.qualcomm.qti.bluetooth_audio@1.0.so
@@ -231,4 +233,4 @@ product/lib/liblayerext.qti.so
 product/lib64/liblayerext.qti.so
 product/lib/libdiag_system.so
 product/lib64/libdiag_system.so
-
+-product/framework/op-telephony-common.jar

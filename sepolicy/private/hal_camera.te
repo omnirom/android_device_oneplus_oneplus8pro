@@ -1,5 +1,8 @@
 allow hal_camera exported_system_prop:file { read open getattr map };
 allow hal_camera platform_app:binder { call transfer };
 
-#allow hal_camera hal_configstore_ISurfaceFlingerConfigs:hwservice_manager find;
+allow hal_camera hal_configstore_ISurfaceFlingerConfigs:hwservice_manager find;
+allow hal_camera hal_configstore_ISurfaceFlingerConfigs:binder call;
 
+allow hal_camera hal_qspmhal_hwservice:hwservice_manager find;
+allow hal_camera hal_qspmhal_hwservice:binder call;

@@ -34,5 +34,5 @@
     <string name="config_displayCpus" translatable="false">0,4</string>
 
     <!-- Preferred refresh rate at keyguard, if supported by the display -->
-    <integer name="config_keyguardRefreshRate">60</integer>
+    <integer name="config_keyguardRefreshRate">120</integer>
 </resources>

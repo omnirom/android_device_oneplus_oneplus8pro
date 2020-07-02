@@ -43,6 +43,8 @@ public class RefreshRateSwitch implements OnPreferenceChangeListener {
     public static void setPeakRefresh (Context context, boolean enabled) {
         Settings.System.putFloat(context.getContentResolver(),
                 Settings.System.PEAK_REFRESH_RATE, enabled ? 120f : 60f);
+        Settings.System.putFloat(context.getContentResolver(),
+                Settings.System.MIN_REFRESH_RATE, enabled ? 120f : 60f);
     }
 
     @Override
@@ -50,6 +52,8 @@ public class RefreshRateSwitch implements OnPreferenceChangeListener {
         Boolean enabled = (Boolean) newValue;
         Settings.System.putFloat(mContext.getContentResolver(),
                 Settings.System.PEAK_REFRESH_RATE, enabled ? 120f : 60f);
+        Settings.System.putFloat(mContext.getContentResolver(),
+                Settings.System.MIN_REFRESH_RATE, enabled ? 120f : 60f);
         return true;
     }
 }

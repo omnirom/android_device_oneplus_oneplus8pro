@@ -1,3 +1,5 @@
 allow hal_fingerprint sysfs_battery_supply:dir search;
 allow hal_fingerprint sysfs_battery_supply:file r_file_perms;
 allow hal_fingerprint omni_sysfs_drm:file rw_file_perms;
+
+allow hal_fingerprint vendor_adsprpc_prop:file { read open getattr};

@@ -1,2 +1,4 @@
 allow kernel self:capability { kill };
 allow kernel oem_device:blk_file { read write open };
+
+allow kernel debugfs_wlan:dir r_dir_perms;
