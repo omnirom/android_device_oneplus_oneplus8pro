@@ -144,7 +144,8 @@ PRODUCT_PACKAGES += \
     libandroid_net
 
 PRODUCT_PACKAGES += \
-    DeviceParts
+    DeviceParts \
+    FrameRateTile
 
 PRODUCT_PACKAGES += \
     vndk_package
