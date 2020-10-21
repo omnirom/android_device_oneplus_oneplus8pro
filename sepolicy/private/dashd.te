@@ -1,3 +1,0 @@
-type dashd, domain, coredomain;
-
-allow dashd proc_cmdline:file read;

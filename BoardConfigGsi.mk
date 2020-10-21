@@ -16,9 +16,9 @@ TARGET_USERIMAGES_USE_F2FS := true
 
 # GSI specific System Properties
 ifneq (,$(filter userdebug eng,$(TARGET_BUILD_VARIANT)))
-TARGET_SYSTEM_PROP += build/make/target/board/gsi_system.prop
+TARGET_SYSTEM_PROP += build/make/target/board/gsi_system_ext.prop
 else
-TARGET_SYSTEM_PROP += build/make/target/board/gsi_system_user.prop
+TARGET_SYSTEM_PROP += build/make/target/board/gsi_system_ext_user.prop
 endif
 
 # Setup a vendor image to let PRODUCT_PROPERTY_OVERRIDES does not affect GSI

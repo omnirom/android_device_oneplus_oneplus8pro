@@ -50,8 +50,6 @@ public class DeviceSettings extends PreferenceFragment implements
     public static final String KEY_NIGHT_SWITCH = "night";
     public static final String KEY_WIDE_SWITCH = "wide";
 
-    public static final String KEY_REFRESH_RATE = "refresh_rate";
-    public static final String KEY_AUTO_REFRESH_RATE = "auto_refresh_rate";
     public static final String KEY_FPS_INFO = "fps_info";
     private static final String KEY_ENABLE_DOLBY_ATMOS = "enable_dolby_atmos";
 
@@ -65,8 +63,6 @@ public class DeviceSettings extends PreferenceFragment implements
     private ListPreference mSliderModeBottom;
     private static TwoStatePreference mHBMModeSwitch;
     private static TwoStatePreference mDCDModeSwitch;
-    private static TwoStatePreference mRefreshRate;
-    private static SwitchPreference mAutoRefreshRate;
     private static SwitchPreference mFpsInfo;
     private SwitchPreference mEnableDolbyAtmos;
 
@@ -111,15 +107,6 @@ public class DeviceSettings extends PreferenceFragment implements
         mDCDModeSwitch.setChecked(DCDModeSwitch.isCurrentlyEnabled(this.getContext()));
         mDCDModeSwitch.setOnPreferenceChangeListener(new DCDModeSwitch(getContext()));
 
-        mAutoRefreshRate = (SwitchPreference) findPreference(KEY_AUTO_REFRESH_RATE);
-        mAutoRefreshRate.setChecked(AutoRefreshRateSwitch.isCurrentlyEnabled(this.getContext()));
-        mAutoRefreshRate.setOnPreferenceChangeListener(new AutoRefreshRateSwitch(getContext()));
-
-        mRefreshRate = (TwoStatePreference) findPreference(KEY_REFRESH_RATE);
-        mRefreshRate.setEnabled(!AutoRefreshRateSwitch.isCurrentlyEnabled(this.getContext()));
-        mRefreshRate.setChecked(RefreshRateSwitch.isCurrentlyEnabled(this.getContext()));
-        mRefreshRate.setOnPreferenceChangeListener(new RefreshRateSwitch(getContext()));
-
         mFpsInfo = (SwitchPreference) findPreference(KEY_FPS_INFO);
         mFpsInfo.setChecked(prefs.getBoolean(KEY_FPS_INFO, false));
         mFpsInfo.setOnPreferenceChangeListener(this);
@@ -130,9 +117,6 @@ public class DeviceSettings extends PreferenceFragment implements
 
     @Override
     public boolean onPreferenceTreeClick(Preference preference) {
-        if (preference == mAutoRefreshRate) {
-              mRefreshRate.setEnabled(!AutoRefreshRateSwitch.isCurrentlyEnabled(this.getContext()));
-        }
         return super.onPreferenceTreeClick(preference);
     }
 

@@ -104,9 +104,7 @@ Return<void> FingerprintInscreen::onFinishEnroll() {
 }
 
 Return<void> FingerprintInscreen::onPress() {
-    if (mIsEnrolling) {
-        this->mVendorDisplayService->setMode(OP_DISPLAY_KEYGUARD_DONE, 2);
-    }
+    this->mVendorDisplayService->setMode(OP_DISPLAY_KEYGUARD_DONE, 2);
     this->mVendorDisplayService->setMode(OP_DISPLAY_NOTIFY_PRESS, 1);
 
     return Void();
@@ -140,11 +138,12 @@ Return<void> FingerprintInscreen::onShowFODView() {
     set(NATIVE_DISPLAY_WIDE, 0);
 
     this->mFodCircleVisible = true;
-    this->mVendorDisplayService->setMode(OP_DISPLAY_KEYGUARD_DONE, 1);
+    this->mVendorDisplayService->setMode(OP_DISPLAY_KEYGUARD_DONE, 8);
     return Void();
 }
 
 Return<void> FingerprintInscreen::onHideFODView() {
+    this->mVendorDisplayService->setMode(OP_DISPLAY_KEYGUARD_DONE, 0);
     this->mFodCircleVisible = false;
 
     set(NATIVE_DISPLAY_WIDE, 0);
@@ -164,7 +163,6 @@ Return<void> FingerprintInscreen::onHideFODView() {
     set(NATIVE_DISPLAY_LOADING, 0);
     set(DC_DIM_PATH, dcDimState);
 
-    this->mVendorDisplayService->setMode(OP_DISPLAY_KEYGUARD_DONE, 0);
     return Void();
 }
 

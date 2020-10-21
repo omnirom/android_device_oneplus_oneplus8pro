@@ -32,7 +32,6 @@
 /******************************************************************************
  * INCLUDE SECTION
  ******************************************************************************/
-#include <stdio.h>
 #include <fcntl.h>
 #include <string.h>
 #include <errno.h>
@@ -50,7 +49,7 @@
 #include <vector>
 #include <string>
 #define LOG_TAG "gpt-utils"
-#include <log/log.h>
+#include <cutils/log.h>
 #include <cutils/properties.h>
 #include "gpt-utils.h"
 #include <endian.h>
@@ -1078,7 +1077,7 @@ static int get_dev_path_from_partition_name(const char *partname,
                         buf[PATH_TRUNCATE_LOC] = '\0';
                 }
         } else {
-                snprintf(buf, buflen, "/dev/mmcblk0");
+                snprintf(buf, buflen, "/dev/block/mmcblk0");
         }
         return 0;
 
@@ -1530,7 +1529,6 @@ int gpt_disk_commit(struct gpt_disk *disk)
                                 __func__);
                 goto error;
         }
-        fsync(fd);
         close(fd);
         return 0;
 error:

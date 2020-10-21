@@ -4,7 +4,8 @@ cc_binary {
     stem: "android.hardware.health@2.0-service",
     init_rc: ["android.hardware.health@2.0-service.rc"],
     vendor: false,
-    product_overlay_specific: true,
+    product_specific: true,
+//    product_overlay_specific: true,
     relative_install_path: "hw",
     srcs: [
         "HealthServiceDefault.cpp"

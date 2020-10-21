@@ -72,7 +72,7 @@ extern "C" {
 #define AB_PARTITION_ATTR_SLOT_ACTIVE (0x1<<2)
 #define AB_PARTITION_ATTR_BOOT_SUCCESSFUL (0x1<<6)
 #define AB_PARTITION_ATTR_UNBOOTABLE (0x1<<7)
-#define AB_SLOT_ACTIVE_VAL              0x3F
+#define AB_SLOT_ACTIVE_VAL              0xF
 #define AB_SLOT_INACTIVE_VAL            0x0
 #define AB_SLOT_ACTIVE                  1
 #define AB_SLOT_INACTIVE                0
@@ -80,11 +80,12 @@ extern "C" {
 #define AB_SLOT_B_SUFFIX                "_b"
 #define PTN_XBL                         "xbl"
 #define PTN_SWAP_LIST                   PTN_XBL, \
-            "abl", "aop", "apdp", "cmnlib", "cmnlib64", \
-            "devcfg", "dtbo", "hyp", "keymaster", "msadp", \
-            "qupfw", "storsec", "tz", "vbmeta", "vbmeta_system", "xbl_config"
+            "abl", "aop", "devcfg", \
+            "dtbo", "hyp", "keymaster", "qupfw", "storsec", \
+            "tz", "uefisecapp", "vbmeta", "vbmeta_system", "xbl_config"
 
-#define AB_PTN_LIST PTN_SWAP_LIST, "boot", "system", "vendor", "modem", "system_ext", "product"
+#define AB_PTN_LIST PTN_SWAP_LIST, "boot", "system", "vendor", "modem", \
+                                  "system_ext", "product"
 #define BOOT_DEV_DIR    "/dev/block/bootdevice/by-name"
 
 /******************************************************************************

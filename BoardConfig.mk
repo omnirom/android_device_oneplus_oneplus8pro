@@ -32,6 +32,8 @@ BOARD_VNDK_VERSION := current
 BOARD_VNDK_RUNTIME_DISABLE := false
 TARGET_NO_KERNEL := false
 BOARD_USES_VENDORIMAGE := true
+TARGET_MOUNT_POINTS_SYMLINKS := true
+
 
 # Split selinux policy
 PRODUCT_SEPOLICY_SPLIT := true
@@ -45,7 +47,6 @@ TARGET_COPY_OUT_ODM := odm
 TARGET_COPY_OUT_PRODUCT := product
 
 TARGET_RECOVERY_FSTAB := $(BOARD_PATH)/recovery_dynamic_partition.fstab
-BOARD_INCLUDE_DTB_IN_BOOTIMG := true
 BOARD_USES_FULL_RECOVERY_IMAGE := true
 
 TARGET_NO_BOOTLOADER := true
@@ -57,7 +58,7 @@ TARGET_KERNEL_VERSION := 4.19
 TARGET_KERNEL_CLANG_COMPILE := true
 #TARGET_KERNEL_CLANG_VERSION := 4.0.2
 #TARGET_KERNEL_CLANG_PATH := "./vendor/qcom/sdclang/8.0/prebuilt/linux-x86_64"
-#TARGET_PLATFORM_DEVICE_BASE := /devices/soc.0/
+TARGET_PLATFORM_DEVICE_BASE := /devices/soc.0/
 
 # Platform
 TARGET_BOARD_PLATFORM := kona
@@ -82,17 +83,15 @@ TARGET_USE_QCOM_BIONIC_OPTIMIZATION := true
 TARGET_USES_64_BIT_BINDER := true
 TARGET_COMPILE_WITH_MSM_KERNEL := true
 
-BOARD_KERNEL_CMDLINE := console=ttyMSM0,115200n8 earlycon=msm_geni_serial,0xa90000 androidboot.hardware=qcom androidboot.console=ttyMSM0 androidboot.memcg=1 lpm_levels.sleep_disabled=1 video=vfb:640x400,bpp=32,memsize=3072000 msm_rtb.filter=0x237 service_locator.enable=1 androidboot.usbcontroller=a600000.dwc3 swiotlb=2048 loop.max_part=7 cgroup.memory=nokmem,nosocket reboot=panic_warm
+BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom androidboot.console=ttyMSM0 androidboot.memcg=1 lpm_levels.sleep_disabled=1 video=vfb:640x400,bpp=32,memsize=3072000 msm_rtb.filter=0x237 service_locator.enable=1 androidboot.usbcontroller=a600000.dwc3 swiotlb=2048 loop.max_part=7 cgroup.memory=nokmem,nosocket reboot=panic_warm
 #BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
 TARGET_KERNEL_ADDITIONAL_FLAGS := DTC_EXT=$(shell pwd)/prebuilts/misc/linux-x86/dtc/dtc
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 4096
-BOARD_KERNEL_TAGS_OFFSET := 0x01E00000
-BOARD_RAMDISK_OFFSET     := 0x02000000
 BOARD_ROOT_EXTRA_FOLDERS += op1 op2
 TARGET_KERNEL_ARCH := arm64
 TARGET_KERNEL_HEADER_ARCH := arm64
-BOARD_KERNEL_IMAGE_NAME := Image-dtb
+BOARD_KERNEL_IMAGE_NAME := Image
 TARGET_KERNEL_SOURCE := kernel/oneplus/sm8250
 TARGET_KERNEL_CONFIG := vendor/omni-oneplus8pro_defconfig
 BOARD_KERNEL_SEPARATED_DTBO := true
@@ -100,6 +99,18 @@ TARGET_USES_UNCOMPRESSED_KERNEL := false
 TARGET_KERNEL_APPEND_DTB := false
 BOARD_BOOT_HEADER_VERSION := 2
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
+BOARD_INCLUDE_DTB_IN_BOOTIMG := true
+BOARD_INCLUDE_RECOVERY_DTBO := true
+
+BUILD_BROKEN_NINJA_USES_ENV_VARS := SDCLANG_AE_CONFIG SDCLANG_CONFIG SDCLANG_CONFIG_AOSP SDCLANG_SA_ENABLED
+BUILD_BROKEN_NINJA_USES_ENV_VARS += TEMPORARY_DISABLE_PATH_RESTRICTIONS
+BUILD_BROKEN_PREBUILT_ELF_FILES := true
+BUILD_BROKEN_USES_BUILD_HOST_SHARED_LIBRARY := true
+BUILD_BROKEN_USES_BUILD_HOST_EXECUTABLE := true
+BUILD_BROKEN_USES_BUILD_COPY_HEADERS := true
+BUILD_BROKEN_USES_BUILD_HOST_STATIC_LIBRARY := true
+
+BOARD_EXT4_SHARE_DUP_BLOCKS := true
 
 
 # partitions
@@ -184,7 +195,6 @@ AUDIO_FEATURE_ENABLED_RECORD_PLAY_CONCURRENCY := true
 
 #Modules
 NEED_KERNEL_MODULE_VENDOR_OVERLAY := true
-#NEED_KERNEL_MODULE_SYSTEM := true
 
 # Camera
 TARGET_MOTORIZED_CAMERA := false
@@ -251,15 +261,11 @@ BOARD_PROPERTY_OVERRIDES_SPLIT_ENABLED := true
 
 # selinux
 include vendor/omni/sepolicy/sepolicy.mk
+include device/qcom/sepolicy/SEPolicy.mk
 BOARD_PLAT_PUBLIC_SEPOLICY_DIR += $(BOARD_PATH)/sepolicy/public
 BOARD_PLAT_PRIVATE_SEPOLICY_DIR += $(BOARD_PATH)/sepolicy/private
-BOARD_PLAT_PUBLIC_SEPOLICY_DIR += \
-    device/qcom/sepolicy/generic/public \
-    device/qcom/sepolicy/qva/public
-
-BOARD_PLAT_PRIVATE_SEPOLICY_DIR += \
-    device/qcom/sepolicy/generic/private \
-    device/qcom/sepolicy/qva/private
+PRODUCT_PRIVATE_SEPOLICY_DIRS += $(BOARD_PATH)/sepolicy/product/priv
+PRODUCT_PUBLIC_SEPOLICY_DIRS += $(BOARD_PATH)/sepolicy/product/public
 
 BOARD_SECCOMP_POLICY += $(BOARD_PATH)/seccomp_policy
 
@@ -278,7 +284,6 @@ TARGET_INCLUDE_STOCK_ARCORE := true
 # FOD
 TARGET_SURFACEFLINGER_FOD_LIB := //$(BOARD_PATH):libfod_extension.oneplus_kona
 
-DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += $(BOARD_PATH)/vendor_framework_compatibility_matrix.xml
 # HIDL
 DEVICE_FRAMEWORK_MANIFEST_FILE += $(BOARD_PATH)/framework_manifest.xml
 
@@ -289,4 +294,6 @@ TARGET_USES_QSSI_NQ_NFC := true
 
 OMNI_PRODUCT_PROPERTIES += \
     ro.sf.lcd_density=540
+
+DEXPREOPT_GENERATE_APEX_IMAGE := true
 

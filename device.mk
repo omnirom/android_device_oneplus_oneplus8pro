@@ -19,8 +19,16 @@
 # device-specific aspects (drivers) with a device-agnostic
 # product configuration (apps).
 #
-PRODUCT_PACKAGES += com.android.apex.cts.shim.v1_prebuilt
-TARGET_FLATTEN_APEX := false
+
+PRODUCT_PACKAGES += \
+    libhidltransport \
+    libhwbinder \
+    android.hidl.manager@1.0 \
+    android.hidl.manager@1.1 \
+    android.hidl.manager@1.2 \
+    libcutils \
+    libtflite \
+    libtextclassifier_hash
 
 PRODUCT_PACKAGES += \
     libinit_oneplus8pro \
@@ -36,6 +44,7 @@ AB_OTA_PARTITIONS += \
     boot \
     dtbo \
     system \
+    system_ext \
     vbmeta \
     product \
     vbmeta_system \
@@ -101,7 +110,10 @@ PRODUCT_PACKAGES += fstab.qcom
 
 PRODUCT_PACKAGES += \
     omni.biometrics.fingerprint.inscreen@1.0-service.oneplus8pro \
-    vendor.qti.hardware.bluetooth_audio@2.0
+    vendor.qti.hardware.bluetooth_audio@2.0 \
+    libbtconfigstore \
+    libgralloc.qti \
+    vendor.qti.hardware.systemhelper@1.0
 
 PRODUCT_AAPT_CONFIG := xxxhdpi
 PRODUCT_AAPT_PREF_CONFIG := xxxhdpi
@@ -144,8 +156,7 @@ PRODUCT_PACKAGES += \
     libandroid_net
 
 PRODUCT_PACKAGES += \
-    DeviceParts \
-    FrameRateTile
+    DeviceParts
 
 PRODUCT_PACKAGES += \
     vndk_package
@@ -154,9 +165,8 @@ PRODUCT_PACKAGES += \
     android.hidl.base@1.0
 
 PRODUCT_PACKAGES += \
-    vendor.display.config@1.10 \
+    vendor.display.config@2.0 \
     libdisplayconfig \
-    libqdMetaData.system \
     libqdMetaData \
     vendor.nxp.nxpese@1.0 \
     vendor.nxp.nxpnfc@1.0 \
@@ -183,10 +193,6 @@ PRODUCT_PACKAGES += \
     libtinyalsa
 
 
-# TODO(b/78308559): includes vr_hwc into GSI before vr_hwc move to vendor
-PRODUCT_PACKAGES += \
-    vr_hwc
-
 PRODUCT_COPY_FILES += \
     frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/media_codecs_google_audio.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/media_codecs_google_telephony.xml \
@@ -202,8 +208,11 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_BOOT_JARS += \
     tcmiface \
-    WfdCommon \
-    qcnvitems
+    WfdCommon
+
+PRODUCT_BOOT_JARS += UxPerformance
+PRODUCT_BOOT_JARS += QPerformance
+PRODUCT_BOOT_JARS += android.hidl.manager-V1.0-java
 
 # Video seccomp policy files
 PRODUCT_COPY_FILES += \
@@ -213,6 +222,10 @@ PRODUCT_PACKAGES += oneplus8-mock
 PRODUCT_BOOT_JARS += oneplus8-mock
 
 TARGET_FS_CONFIG_GEN := device/oneplus/oneplus8pro/config.fs
+
+PRODUCT_MANIFEST_FILES += \
+    device/oneplus/oneplus8pro/vintf/android.hardware.vibrator.1.0-service.xml \
+    device/oneplus/oneplus8pro/vintf/vendor.omni.biometrics.fingerprint.inscreen-1.0-service.xml
 
 $(call inherit-product, build/make/target/product/gsi_keys.mk)
 
