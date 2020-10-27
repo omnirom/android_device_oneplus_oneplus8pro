@@ -7,20 +7,9 @@
 
 #/system/etc/audio_policy_configuration_omni.xml    u:object_r:vendor_configs_file:s0
 /system/lib/modules/wlan.ko    u:object_r:vendor_file:s0
-/product/vendor_overlay/29/lib/modules(/.*)?     u:object_r:vendor_file:s0
+/product/vendor_overlay/30/lib/modules(/.*)?     u:object_r:vendor_file:s0
 
 /data/misc/omni/client_package_name                u:object_r:omni_data_file:s0
-
-/sys/devices/platform/soc/a8c000\.i2c/i2c-3/3-005a/leds/vibrator/activate		u:object_r:sysfs_oem:s0
-/sys/devices/platform/soc/a8c000\.i2c/i2c-3/3-005a/leds/vibrator/rtp		u:object_r:sysfs_oem:s0
-/sys/devices/platform/soc/a8c000\.i2c/i2c-3/3-005a/leds/vibrator/activate_mode		u:object_r:sysfs_oem:s0
-/sys/devices/platform/soc/a8c000\.i2c/i2c-3/3-005a/leds/vibrator/ignore_store		u:object_r:sysfs_oem:s0
-/sys/devices/platform/soc/a8c000\.i2c/i2c-3/3-005a/leds/vibrator/gain		u:object_r:sysfs_oem:s0
-/sys/devices/platform/soc/a8c000\.i2c/i2c-3/3-005a/leds/vibrator/brightness		u:object_r:sysfs_oem:s0
-/sys/devices/platform/soc/a8c000\.i2c/i2c-3/3-005a/leds/vibrator/duration		u:object_r:sysfs_oem:s0
-/sys/devices/platform/soc/a8c000\.i2c/i2c-3/3-005a/leds/vibrator/state		u:object_r:sysfs_oem:s0
-/sys/devices/platform/soc/a8c000\.i2c/i2c-3/3-005a/leds/vibrator/seq		u:object_r:sysfs_oem:s0
-/sys/devices/platform/soc/a8c000\.i2c/i2c-3/3-005a/leds/vibrator/loop		u:object_r:sysfs_oem:s0
 
 
 /sys/devices/platform/soc/ae00000\.qcom,mdss_mdp/drm/card0/card0-DSI-1/native_display_p3_mode              u:object_r:omni_sysfs_drm:s0
@@ -39,4 +28,6 @@
 /sys/class/qcom-battery/restrict_chg u:object_r:sysfs_oem:s0
 
 /sys/devices/platform/soc/c440000\.qcom,spmi/spmi-0/spmi0-02/c440000\.qcom,spmi\:qcom,pm8150b@2\:qcom,qpnp-smb5/power_supply/usb/otg_switch u:object_r:sysfs_usb_supply:s0
+
+/dev/smcinvoke                                  u:object_r:vendor_smcinvoke_device:s0
 

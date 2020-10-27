@@ -1,0 +1,6 @@
+service omni-health-hal-2-1 /product/bin/hw/android.hardware.health@2.1-service-oneplus8pro
+    class hal charger
+    user system
+    group system
+    capabilities WAKE_ALARM
+    file /dev/kmsg w

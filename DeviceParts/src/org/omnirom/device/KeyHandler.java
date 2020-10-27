@@ -37,6 +37,7 @@ import android.media.AudioManager;
 import android.media.session.MediaSessionLegacyHelper;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.os.FileObserver;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
@@ -52,10 +53,13 @@ import android.view.KeyEvent;
 import android.view.HapticFeedbackConstants;
 
 import com.android.internal.util.omni.DeviceKeyHandler;
+import com.android.internal.util.omni.PackageUtils;
+
 import com.android.internal.util.ArrayUtils;
 import org.omnirom.omnilib.utils.OmniVibe;
 import com.android.internal.statusbar.IStatusBarService;
 
+import vendor.oneplus.camera.CameraHIDL.V1_0.IOnePlusCameraProvider;
 
 public class KeyHandler implements DeviceKeyHandler {
 
@@ -150,6 +154,9 @@ public class KeyHandler implements DeviceKeyHandler {
     private Sensor mOpPocketSensor;
     private boolean mUseSingleTap;
     private boolean mDispOn;
+    private ClientPackageNameObserver mClientObserver;
+    private IOnePlusCameraProvider mProvider;
+    private boolean isOPCameraAvail;
     private boolean mRestoreUser;
     private boolean mToggleTorch;
     private boolean mTorchState;
@@ -311,7 +318,11 @@ public class KeyHandler implements DeviceKeyHandler {
 
             }
         }).startObserving("DEVPATH=/devices/platform/soc/soc:tri_state_key");
-
+        isOPCameraAvail = PackageUtils.isAvailableApp("com.oneplus.camera", context);
+        if (isOPCameraAvail) {
+            mClientObserver = new ClientPackageNameObserver(CLIENT_PACKAGE_PATH);
+            mClientObserver.startWatching();
+        }
     }
 
     @Override
@@ -417,6 +428,11 @@ public class KeyHandler implements DeviceKeyHandler {
 
         if (DEBUG_SENSOR) Log.i(TAG, "Unregister pocket sensor");
         mSensorManager.unregisterListener(mPocketProximitySensor, mOpPocketSensor);
+        if ((mClientObserver == null) && (isOPCameraAvail)) {
+            mClientObserver = new ClientPackageNameObserver(CLIENT_PACKAGE_PATH);
+            mClientObserver.startWatching();
+        }
+
     }
 
     private void updateDoubleTapToWake() {
@@ -450,6 +466,11 @@ public class KeyHandler implements DeviceKeyHandler {
             mSensorManager.registerListener(mTiltSensorListener, mTiltSensor,
                     SensorManager.SENSOR_DELAY_NORMAL);
         }
+        if (mClientObserver != null) {
+            mClientObserver.stopWatching();
+            mClientObserver = null;
+        }
+
     }
 
     private int getSliderAction(int position) {
@@ -646,6 +667,27 @@ public class KeyHandler implements DeviceKeyHandler {
     @Override
     public String getCustomProxiSensor() {
         return "com.oneplus.pocket";
+    }
+
+    private class ClientPackageNameObserver extends FileObserver {
+
+        public ClientPackageNameObserver(String file) {
+            super(CLIENT_PACKAGE_PATH, MODIFY);
+        }
+
+        @Override
+        public void onEvent(int event, String file) {
+            String pkgName = Utils.getFileValue(CLIENT_PACKAGE_PATH, "0");
+            if (event == FileObserver.MODIFY) {
+                try {
+                    Log.d(TAG, "client_package" + file + " and " + pkgName);
+                    mProvider = IOnePlusCameraProvider.getService();
+                    mProvider.setPackageName(pkgName);
+                } catch (RemoteException e) {
+                    Log.e(TAG, "setPackageName error", e);
+                }
+            }
+        }
     }
 }
 

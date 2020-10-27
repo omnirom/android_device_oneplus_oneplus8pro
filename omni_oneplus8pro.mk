@@ -121,6 +121,8 @@ PRODUCT_ENFORCE_RRO_EXCLUDED_OVERLAYS := framework-res
 PRODUCT_ENFORCE_RRO_EXEMPTED_TARGETS := vendor
 
 DISABLE_ARTIFACT_PATH_REQUIREMENTS := true
+TARGET_SKIP_OTATOOLS_PACKAGE := false
+
 $(call inherit-product, device/oneplus/oneplus8pro/qssi_whitelist.mk)
 
 $(call inherit-product, vendor/oneplus/oneplus8pro/oneplus8pro-vendor.mk)

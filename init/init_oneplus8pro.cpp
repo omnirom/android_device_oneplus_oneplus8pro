@@ -66,17 +66,17 @@ void vendor_load_properties()
     name = android::base::GetProperty("ro.product.vendor.name", "");
     LOG(INFO) << name;
     if (name == "OnePlus8Pro") {
-        property_override("ro.build.fingerprint", "OnePlus/OnePlus8Pro/OnePlus8Pro:11/RKQ1.200507.003/2006111730:user/release-keys");
-        property_override("ro.system.build.fingerprint", "OnePlus/OnePlus8Pro/OnePlus8Pro:11/RKQ1.200507.003/2006111730:user/release-keys");
-        property_override("ro.product.build.fingerprint", "OnePlus/OnePlus8Pro/OnePlus8Pro:11/RKQ1.200507.003/2006111730:user/release-keys");
-        property_override("ro.odm.build.fingerprint", "OnePlus/OnePlus8Pro/OnePlus8Pro:11/RKQ1.200507.003/2006111730:user/release-keys");
-        property_override("ro.build.description", "OnePlus/OnePlus8Pro/OnePlus8Pro:11/RKQ1.200507.003/2006111730:user/release-keys");
-        property_override("ro.build.model", "IN2023");
+//        property_override("ro.build.fingerprint", "OnePlus/OnePlus8Pro/OnePlus8Pro:11/RKQ1.200507.003/2006111730:user/release-keys");
+//        property_override("ro.system.build.fingerprint", "OnePlus/OnePlus8Pro/OnePlus8Pro:11/RKQ1.200507.003/2006111730:user/release-keys");
+//        property_override("ro.product.build.fingerprint", "OnePlus/OnePlus8Pro/OnePlus8Pro:11/RKQ1.200507.003/2006111730:user/release-keys");
+//        property_override("ro.odm.build.fingerprint", "OnePlus/OnePlus8Pro/OnePlus8Pro:11/RKQ1.200507.003/2006111730:user/release-keys");
+//        property_override("ro.build.description", "OnePlus/OnePlus8Pro/OnePlus8Pro:11/RKQ1.200507.003/2006111730:user/release-keys");
+//        property_override("ro.build.model", "IN2023");
     }
-    property_override("ro.build.date", "Thu Jul  2 19:37:20 CST 2020");
-    property_override("ro.build.date.utc", "1593689840");
-    property_override("ro.build.id", "QKQ1.191222.002");
-    property_override("ro.build.kernel.id", "4.19-G2007021957");
+//    property_override("ro.build.date", "Thu Jul  2 19:37:20 CST 2020");
+//    property_override("ro.build.date.utc", "1593689840");
+//    property_override("ro.build.id", "QKQ1.191222.002");
+//    property_override("ro.build.kernel.id", "4.19-G2007021957");
     property_override("ro.boot.flash.locked", "1");
     property_override("ro.boot.verifiedbootstate", "green");
     property_override("ro.boot.warranty_bit", "0");
@@ -85,7 +85,7 @@ void vendor_load_properties()
     property_override("ro.build.type", "user");
     property_override("ro.product.build.type", "user");
     property_override("ro.system.build.type", "user");
-    property_override("ro.debuggable", "1");
+//    property_override("ro.debuggable", "1");
 }
 
 }

@@ -1,32 +1,33 @@
-on init
+on early-init
 #    mount none /system/lib/modules/wlan.ko /vendor/lib/modules/qca_cld3_wlan.ko bind
 
-    mount none /system/overlay/EmptyOverlay/EmptyOverlay.apk /vendor/overlay/FrameworksResCommon.apk bind
-    mount none /system/overlay/EmptyOverlay/EmptyOverlay.apk /vendor/overlay/FrameworksResTarget.apk bind
-    mount none /system/overlay/EmptyOverlay/EmptyOverlay.apk /vendor/overlay/OPFrameworkConfigOverlay.apk bind
-    mount none /system/overlay/EmptyOverlay/EmptyOverlay.apk /vendor/overlay/SystemUIResCommon.apk bind
-    mount none /system/overlay/EmptyOverlay/EmptyOverlay.apk /vendor/overlay/TelecommResCommon.apk bind
-    mount none /system/overlay/EmptyOverlay/EmptyOverlay.apk /vendor/overlay/TelephonyResCommon.apk bind
-    mount none /system/overlay/EmptyOverlay/EmptyOverlay.apk /vendor/overlay/CellBroadcastReceiverResCommon.apk bind
-    mount none /system/overlay/EmptyOverlay/EmptyOverlay.apk /vendor/overlay/oneplus_shape_squircle/OnePlusIconShapeSquircleOverlay.apk bind
-    mount none /system/overlay/EmptyOverlay/EmptyOverlay.apk /vendor/overlay/oneplus_shape_circle/OnePlusIconShapeCircleOverlay.apk bind
-    mount none /system/overlay/EmptyOverlay/EmptyOverlay.apk /vendor/overlay/oneplus_shape_teardrop/OnePlusIconShapeTeardropOverlay.apk bind
-    mount none /system/overlay/EmptyOverlay/EmptyOverlay.apk /vendor/overlay/oneplus_shape_square/OnePlusIconShapeSquareOverlay.apk bind
-    mount none /system/overlay/EmptyOverlay/EmptyOverlay.apk /vendor/overlay/oneplus_shape_roundedrect/OnePlusIconShapeRoundedRectOverlay.apk bind
+    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/FrameworksResCommon.apk bind
+    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/FrameworksResTarget.apk bind
+    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/OPFrameworkConfigOverlay.apk bind
+    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/SystemUIResCommon.apk bind
+    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/TelecommResCommon.apk bind
+    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/TelephonyResCommon.apk bind
+    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/CellBroadcastReceiverResCommon.apk bind
+    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/oneplus_shape_squircle/OnePlusIconShapeSquircleOverlay.apk bind
+    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/oneplus_shape_circle/OnePlusIconShapeCircleOverlay.apk bind
+    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/oneplus_shape_teardrop/OnePlusIconShapeTeardropOverlay.apk bind
+    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/oneplus_shape_square/OnePlusIconShapeSquareOverlay.apk bind
+    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/oneplus_shape_roundedrect/OnePlusIconShapeRoundedRectOverlay.apk bind
 
 
-    mount none /system/overlay/EmptyOverlay/EmptyOverlay.apk /vendor/overlay/VendorOverlay-OPSettingsProvider.apk bind
-    mount none /system/overlay/EmptyOverlay/EmptyOverlay.apk /vendor/overlay/VendorOverlay-OPSystemUI.apk bind
-    mount none /system/overlay/EmptyOverlay/EmptyOverlay.apk /vendor/overlay/VendorOverlay-OPWifiApSettings.apk bind
-    mount none /system/overlay/EmptyOverlay/EmptyOverlay.apk /vendor/overlay/VendorOverlay-framework-res.apk bind
-    mount none /system/overlay/EmptyOverlay/EmptyOverlay.apk /vendor/overlay/VendorOverlay-oneplus-framework-res.apk bind
-    mount none /system/overlay/EmptyOverlay/EmptyOverlay.apk /vendor/overlay/WifiResTarget.apk bind
-    mount none /system/overlay/EmptyOverlay/EmptyOverlay.apk /vendor/overlay/oneplus_aodnotification_gold/oneplus_aodnotification_gold.apk bind
-    mount none /system/overlay/EmptyOverlay/EmptyOverlay.apk /vendor/overlay/oneplus_aodnotification_purple/oneplus_aodnotification_purple.apk bind
-    mount none /system/overlay/EmptyOverlay/EmptyOverlay.apk /vendor/overlay/oneplus_aodnotification_red/oneplus_aodnotification_red.apk bind
-    mount none /system/overlay/EmptyOverlay/EmptyOverlay.apk /odm/overlay/OdmOverlay-OPSystemUI.apk bind
-    mount none /system/overlay/EmptyOverlay/EmptyOverlay.apk /odm/overlay/OdmOverlay-framework-res.apk bind
-    mount none /system/overlay/EmptyOverlay/EmptyOverlay.apk /odm/overlay/OdmOverlay-oneplus-framework-res.apk bind
+    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/DisplayCutoutNoCutout/NoCutout.apk bind
+    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/VendorOverlay-OPSettingsProvider.apk bind
+    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/VendorOverlay-OPSystemUI.apk bind
+#    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/VendorOverlay-OPWifiApSettings.apk bind
+    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/VendorOverlay-framework-res.apk bind
+    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/VendorOverlay-oneplus-framework-res.apk bind
+#    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/WifiResTarget.apk bind
+    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/oneplus_aodnotification_gold/oneplus_aodnotification_gold.apk bind
+    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/oneplus_aodnotification_purple/oneplus_aodnotification_purple.apk bind
+    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/oneplus_aodnotification_red/oneplus_aodnotification_red.apk bind
+    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /odm/overlay/OdmOverlay-OPSystemUI.apk bind
+    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /odm/overlay/OdmOverlay-framework-res.apk bind
+    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /odm/overlay/OdmOverlay-oneplus-framework-res.apk bind
 on boot
     # default country code
 #    setprop ro.boot.wificountrycode 00
@@ -36,81 +37,6 @@ on boot
     chown system system /proc/touchpanel/single_tap_enable
     chmod 0660 /proc/touchpanel/single_tap_enable
 
-    chown system system /proc/touchpanel/double_tap_enable
-    chmod 0660 /proc/touchpanel/double_tap_enable
-
-    chown system system /proc/touchpanel/letter_o_enable
-    chmod 0660 /proc/touchpanel/letter_o_enable
-
-    chown system system /proc/touchpanel/music_enable
-    chmod 0660 /proc/touchpanel/music_enable
-
-    chown system system /proc/touchpanel/double_swipe_enable
-    chmod 0660 /proc/touchpanel/double_swipe_enable
-
-    chown system system /proc/touchpanel/up_arrow_enable
-    chmod 0660 /proc/touchpanel/up_arrow_enable
-
-    chown system system /proc/touchpanel/down_arrow_enable
-    chmod 0660 /proc/touchpanel/down_arrow_enable
-
-    chown system system /proc/touchpanel/left_arrow_enable
-    chmod 0660 /proc/touchpanel/left_arrow_enable
-
-    chown system system /proc/touchpanel/right_arrow_enable
-    chmod 0660 /proc/touchpanel/right_arrow_enable
-
-    chown system system /proc/touchpanel/left_swipe_enable
-    chmod 0660 /proc/touchpanel/left_swipe_enable
-
-    chown system system /proc/touchpanel/right_swipe_enable
-    chmod 0660 /proc/touchpanel/right_swipe_enable
-
-    chown system system /proc/touchpanel/up_swipe_enable
-    chmod 0660 /proc/touchpanel/up_swipe_enable
-
-    chown system system /proc/touchpanel/down_swipe_enable
-    chmod 0660 /proc/touchpanel/down_swipe_enable
-
-    chown system system /proc/touchpanel/letter_m_enable
-    chmod 0660 /proc/touchpanel/letter_m_enable
-
-    chown system system /proc/touchpanel/letter_w_enable
-    chmod 0660 /proc/touchpanel/letter_w_enable
-
-    chown system system /proc/touchpanel/letter_s_enable
-    chmod 0660 /proc/touchpanel/letter_s_enable
-
-    chmod 0660 /sys/devices/soc/soc:fpc_fpc1020/proximity_state
-    chown system system /sys/devices/soc/soc:fpc_fpc1020/proximity_state
-
-    chmod 0660 /sys/devices/soc/soc:fpc_fpc1020/key_disable
-    chown system system /sys/devices/soc/soc:fpc_fpc1020/key_disable
-
-    chmod 0660 /sys/devices/platform/soc/soc:goodix_fp/proximity_state
-    chown system system /sys/devices/platform/soc/soc:goodix_fp/proximity_state
-
-    # Graphics
-    chown system graphics /sys/devices/platform/soc/ae00000.qcom,mdss_mdp/drm/card0/card0-DSI-1/modes
-    chmod 0666 /sys/devices/platform/soc/ae00000.qcom,mdss_mdp/drm/card0/card0-DSI-1/modes
-    chown system graphics /sys/devices/platform/soc/ae00000.qcom,mdss_mdp/drm/card0/card0-DSI-1/hbm
-    chmod 0666 /sys/devices/platform/soc/ae00000.qcom,mdss_mdp/drm/card0/card0-DSI-1/hbm
-    chown system graphics /sys/devices/platform/soc/ae00000.qcom,mdss_mdp/drm/card0/card0-DSI-1/native_display_srgb_color_mode
-    chmod 0666 /sys/devices/platform/soc/ae00000.qcom,mdss_mdp/drm/card0/card0-DSI-1/native_display_srgb_color_mode
-    chown system graphics /sys/devices/platform/soc/ae00000.qcom,mdss_mdp/drm/card0/card0-DSI-1/native_display_wide_color_mode
-    chmod 0666 /sys/devices/platform/soc/ae00000.qcom,mdss_mdp/drm/card0/card0-DSI-1/native_display_wide_color_mode
-    chown system graphics /sys/devices/platform/soc/ae00000.qcom,mdss_mdp/drm/card0/card0-DSI-1/native_display_customer_srgb_mode
-    chmod 0666 /sys/devices/platform/soc/ae00000.qcom,mdss_mdp/drm/card0/card0-DSI-1/native_display_customer_srgb_mode
-    chown system graphics /sys/devices/platform/soc/ae00000.qcom,mdss_mdp/drm/card0/card0-DSI-1/native_display_customer_p3_mode
-    chmod 0666 /sys/devices/platform/soc/ae00000.qcom,mdss_mdp/drm/card0/card0-DSI-1/native_display_customer_p3_mode
-    chown system graphics /sys/devices/platform/soc/ae00000.qcom,mdss_mdp/drm/card0/card0-DSI-1/native_display_p3_mode
-    chmod 0666 /sys/devices/platform/soc/ae00000.qcom,mdss_mdp/drm/card0/card0-DSI-1/native_display_p3_mode
-    chown system graphics /sys/devices/platform/soc/ae00000.qcom,mdss_mdp/drm/card0/card0-DSI-1/dimlayer_bl_en
-    chmod 0666 /sys/devices/platform/soc/ae00000.qcom,mdss_mdp/drm/card0/card0-DSI-1/dimlayer_bl_en
-    chown system graphics /sys/devices/platform/soc/ae00000.qcom,mdss_mdp/drm/card0/card0-DSI-1/DCI_P3
-    chmod 0666 /sys/devices/platform/soc/ae00000.qcom,mdss_mdp/drm/card0/card0-DSI-1/DCI_P3
-    chown system graphics /sys/devices/platform/soc/ae00000.qcom,mdss_mdp/drm/card0/card0-DSI-1/night_mode
-    chmod 0666 /sys/devices/platform/soc/ae00000.qcom,mdss_mdp/drm/card0/card0-DSI-1/night_mode
 
     chown system system /sys/devices/platform/soc/ae00000.qcom,mdss_mdp/drm/card0/card0-DSI-1/dynamic_fps
     chmod 0666 /sys/devices/platform/soc/ae00000.qcom,mdss_mdp/drm/card0/card0-DSI-1/dynamic_fps
@@ -131,6 +57,11 @@ on boot
     chown system system /sys/class/leds/vibrator/brightness
     chown system system /sys/class/leds/vibrator/duration
     chown system system /sys/class/leds/vibrator/state
+    chown system system /sys/class/leds/vibrator/haptic_audio
+    chown system system /sys/class/leds/vibrator/od_clamp
+    chown system system /sys/class/leds/vibrator/ol_lra_period
+    chown system system /sys/class/leds/vibrator/autocal
+
     chmod 0660 /sys/class/leds/vibrator/vmax
     chmod 0660 /sys/class/leds/vibrator/activate
     chmod 0660 /sys/class/leds/vibrator/ignore_store
@@ -152,9 +83,6 @@ service dashd /product/bin/dashd
 service factory-hal-1-0 /system/bin/true
     disabled
 
-service vendor.vibrator-1-0 /system/bin/true
-    disabled
-
 service oneplus_brain_service /system/bin/true
     disabled
 
@@ -163,4 +91,3 @@ on property:vendor.display.lcd_density=540
 
 service vendor.light-hal-2-0 /system/bin/true
     disabled
-

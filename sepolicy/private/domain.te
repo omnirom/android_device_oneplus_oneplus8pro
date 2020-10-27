@@ -1,1 +1,2 @@
 type hal_param_default, domain;
+type vendor_feature_enabler_client, domain;

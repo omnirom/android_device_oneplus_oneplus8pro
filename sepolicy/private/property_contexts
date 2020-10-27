@@ -1,9 +1,9 @@
 persist.vendor.sys.fp.fod.location.X_Y u:object_r:exported_system_prop:s0
 persist.vendor.sys.fp.fod.size.width_height u:object_r:exported_system_prop:s0
 sys.camera.motor.direction  u:object_r:exported_system_prop:s0 exact string
-ro.vibrator.hal.tick.duration u:object_r:exported_system_prop:s0 exact int
-ro.vibrator.hal.click.duration u:object_r:exported_system_prop:s0 exact int
-ro.vibrator.hal.heavyclick.duration u:object_r:exported_system_prop:s0 exact int
+#ro.vibrator.hal.tick.duration u:object_r:exported_system_prop:s0 exact int
+#ro.vibrator.hal.click.duration u:object_r:exported_system_prop:s0 exact int
+#ro.vibrator.hal.heavyclick.duration u:object_r:exported_system_prop:s0 exact int
 
 persist.sys.force_sw_gles u:object_r:exported_system_prop:s0 exact int
 persist.rcs.otp_sms_port u:object_r:exported_system_prop:s0 exact int
@@ -26,3 +26,12 @@ persist.camera.bokeh.scale u:object_r:exported_system_prop:s0 exact int
 persist.sys.display.iris.absent u:object_r:boottime_prop:s0 exact int
 
 persist.bluetooth.sar u:object_r:exported_system_prop:s0 exact int
+
+fakers.boot.verifiedbootstate  u:object_r:exported2_default_prop:s0 exact string
+
+ro.vibrator.hal.click.duration u:object_r:exported_system_prop:s0 exact int
+ro.vibrator.hal.tick.duration u:object_r:exported_system_prop:s0 exact int
+ro.vibrator.hal.heavyclick.duration u:object_r:exported_system_prop:s0 exact int
+ro.vibrator.hal.short.voltage u:object_r:exported_system_prop:s0 exact int
+ro.vibrator.hal.long.voltage u:object_r:exported_system_prop:s0 exact int
+

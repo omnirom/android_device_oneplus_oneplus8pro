@@ -25,8 +25,17 @@ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
-<manifest version="1.0" type="framework">
-    <!-- atfwd -->
+<manifest version="2.0" type="framework">
+    <hal format="hidl">
+        <name>vendor.qti.hardware.qccsyshal</name>
+        <transport>hwbinder</transport>
+        <version>1.0</version>
+        <interface>
+            <name>IQccsyshal</name>
+            <instance>qccsyshal</instance>
+        </interface>
+        <fqname>@1.0::IQccsyshal/qccsyshal</fqname>
+    </hal>
     <hal format="hidl">
         <name>vendor.qti.hardware.radio.atcmdfwd</name>
         <transport>hwbinder</transport>
@@ -35,8 +44,8 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <name>IAtCmdFwd</name>
             <instance>AtCmdFwdService</instance>
         </interface>
+        <fqname>@1.0::IAtCmdFwd/AtCmdFwdService</fqname>
     </hal>
-    <!--Sigma hal-->
     <hal format="hidl">
         <name>vendor.qti.hardware.sigma_miracast</name>
         <transport>hwbinder</transport>
@@ -45,8 +54,8 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <name>Isigma_miracast</name>
             <instance>sigmahal</instance>
         </interface>
+        <fqname>@1.0::Isigma_miracast/sigmahal</fqname>
     </hal>
-    <!-- System Helper HAL Service -->
     <hal format="hidl">
         <name>vendor.qti.hardware.systemhelper</name>
         <transport>hwbinder</transport>
@@ -59,15 +68,23 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <name>ISystemResource</name>
             <instance>default</instance>
         </interface>
-   </hal>
-    <!--QDMA hal-->
+        <fqname>@1.0::ISystemEvent/default</fqname>
+        <fqname>@1.0::ISystemResource/default</fqname>
+    </hal>
     <hal format="hidl">
-        <name>vendor.qti.hardware.qccsyshal</name>
+        <name>vendor.qti.hardware.wifi.keystore</name>
         <transport>hwbinder</transport>
         <version>1.0</version>
         <interface>
-            <name>IQccsyshal</name>
-            <instance>qccsyshal</instance>
+            <name>IKeystoreExt</name>
+            <instance>default</instance>
         </interface>
+        <fqname>@1.0::IKeystoreExt/default</fqname>
     </hal>
+    <system-sdk>
+        <version>28</version>
+        <version>29</version>
+        <version>30</version>
+    </system-sdk>
 </manifest>
+

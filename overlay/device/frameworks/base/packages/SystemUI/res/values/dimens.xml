@@ -19,11 +19,13 @@
     <!-- Margin end of the system icons super container when the avatar is missing. -->
     <dimen name="system_icons_super_container_avatarless_margin_end">80px</dimen>
     <dimen name="multi_user_switch_keyguard_margin">80px</dimen>
-    <dimen name="keyguard_carrier_text_margin">80px</dimen>
     <!-- the padding on the start of the statusbar -->
     <dimen name="status_bar_padding_start">80px</dimen>
     <!-- the padding on the end of the statusbar -->
     <dimen name="status_bar_padding_end">80px</dimen>
     <dimen name="status_bar_left_clock_starting_padding">124px</dimen>
+    <!-- Margin on the left side of the carrier text on Keyguard -->
+    <dimen name="keyguard_carrier_text_margin">224px</dimen>
+
 </resources>
 

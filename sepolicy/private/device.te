@@ -1,3 +1,7 @@
 type oem_audio_device, dev_type;
 
 type diag_device, dev_type, mlstrustedobject;
+
+
+allow device vendor_feature_enabler_client:chr_file { read write };
+

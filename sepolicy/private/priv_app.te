@@ -11,3 +11,9 @@ allow priv_app proc_net:file read;
 
 allow platform_app hal_camera_postproc_hwservice:hwservice_manager find;
 
+
+allow priv_app proc_touchpanel:dir search;
+allow priv_app proc_touchpanel:file { open write };
+allow priv_app sysfs_oem:dir search;
+allow priv_app sysfs_oem:file { open write };
+

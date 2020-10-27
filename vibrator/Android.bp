@@ -14,7 +14,9 @@
 // limitations under the License.
 cc_binary {
     name: "android.hardware.vibrator@1.3-service.oneplus8pro",
+    stem: "android.hardware.vibrator@1.3-service.oneplus8pro",
     relative_install_path: "hw",
+    product_specific: true,
     init_rc: ["android.hardware.vibrator@1.3-service.oneplus8pro.rc"],
     srcs: ["service.cpp", "Vibrator.cpp"],
     cflags: ["-Wall", "-Werror"],
@@ -22,13 +24,15 @@ cc_binary {
         "libhidlbase",
         "libcutils",
         "liblog",
-        "libutils",
         "libhardware",
         "android.hardware.vibrator@1.0",
         "android.hardware.vibrator@1.1",
         "android.hardware.vibrator@1.2",
         "android.hardware.vibrator@1.3",
     ],
+    static_libs: [
+        "libutils",
+    ],
+
     proprietary: false,
-    product_specific: true,
 }

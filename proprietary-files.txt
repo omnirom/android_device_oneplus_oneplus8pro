@@ -16,3 +16,6 @@ system/etc/permissions/qcnvitems.xml
 -system/priv-app/OnePlusCamera/OnePlusCamera.apk
 -system/priv-app/OnePlusCameraService/OnePlusCameraService.apk
 
+etc/permissions/privapp-permissions-qti.xml
+etc/permissions/privapp-permissions-oem-system.xml
+etc/permissions/privapp-permissions-com.quicinc.voice.activation.xml

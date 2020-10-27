@@ -190,7 +190,7 @@ persist.vendor.bt.a2dp.hal.implementation=true
 #endif
 
 #ifdef VENDOR_EDIT
-persist.vendor.naruto.light.support=true
+persist.vendor.naruto.light.support=false
 #endif
 
 ro.apex.updatable=true
@@ -257,3 +257,6 @@ audio.offload.min.duration.secs=30
 audio.sys.offload.pstimeout.secs=3
 #HWC
 persist.vendor.color.matrix=2
+
+fakers.boot.verifiedbootstate=orange
+

@@ -113,7 +113,8 @@ PRODUCT_PACKAGES += \
     vendor.qti.hardware.bluetooth_audio@2.0 \
     libbtconfigstore \
     libgralloc.qti \
-    vendor.qti.hardware.systemhelper@1.0
+    vendor.qti.hardware.systemhelper@1.0 \
+    android.hardware.thermal@2.0
 
 PRODUCT_AAPT_CONFIG := xxxhdpi
 PRODUCT_AAPT_PREF_CONFIG := xxxhdpi
@@ -121,7 +122,6 @@ PRODUCT_CHARACTERISTICS := nosdcard
 
 # Lights & Health
 PRODUCT_PACKAGES += \
-    android.hardware.health@2.0-service.oneplus8pro \
     android.hardware.light@2.0-service.oneplus8pro
 
 PRODUCT_COPY_FILES += \
@@ -176,7 +176,8 @@ PRODUCT_PACKAGES += \
     vendor.qti.hardware.camera.device@1.0 \
     vendor.qti.hardware.camera.postproc@1.0 \
     vendor.qti.hardware.systemhelper@1.1 \
-    vendor.qti.hardware.bluetooth_dun@1.0
+    vendor.qti.hardware.bluetooth_dun@1.0 \
+    android.hardware.bluetooth@1.0
 
 #Nfc
 PRODUCT_PACKAGES += \
@@ -201,7 +202,6 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_PACKAGES += \
     vendor.qti.hardware.wifi@1.0 \
-    android.hardware.vibrator@1.3-service.oneplus8pro
 
 # Remove unwanted packages
 PRODUCT_PACKAGES += \
@@ -213,7 +213,7 @@ PRODUCT_BOOT_JARS += \
 
 PRODUCT_BOOT_JARS += UxPerformance
 PRODUCT_BOOT_JARS += QPerformance
-PRODUCT_BOOT_JARS += android.hidl.manager-V1.0-java
+#PRODUCT_BOOT_JARS += android.hidl.manager-V1.0-java
 
 # Video seccomp policy files
 PRODUCT_COPY_FILES += \
@@ -225,8 +225,11 @@ PRODUCT_BOOT_JARS += oneplus8-mock
 TARGET_FS_CONFIG_GEN := device/oneplus/oneplus8pro/config.fs
 
 PRODUCT_MANIFEST_FILES += \
-    device/oneplus/oneplus8pro/vintf/android.hardware.vibrator.1.0-service.xml \
+    device/oneplus/oneplus8pro/vintf/com.qualcomm.qti.uceservice-2.2.xml \
+    device/oneplus/oneplus8pro/vintf/android.hardware.sensors-2.0.xml \
     device/oneplus/oneplus8pro/vintf/vendor.omni.biometrics.fingerprint.inscreen-1.0-service.xml
+
+PRODUCT_PACKAGES += DeskClock
 
 $(call inherit-product, build/make/target/product/gsi_keys.mk)
 

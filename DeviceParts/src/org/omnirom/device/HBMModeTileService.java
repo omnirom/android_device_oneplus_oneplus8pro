@@ -48,7 +48,8 @@ public class HBMModeTileService extends TileService {
     public void onStartListening() {
         super.onStartListening();
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        enabled = HBMModeSwitch.isCurrentlyEnabled(this);
+        //enabled = HBMModeSwitch.isCurrentlyEnabled(this);
+        enabled = false;
         getQsTile().setState(enabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
         getQsTile().updateTile();
     }
@@ -62,9 +63,9 @@ public class HBMModeTileService extends TileService {
     public void onClick() {
         super.onClick();
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        enabled = HBMModeSwitch.isCurrentlyEnabled(this);
+        enabled = !enabled;
         Utils.writeValue(HBMModeSwitch.getFile(), enabled ? "0" : "5");
-        sharedPrefs.edit().putBoolean(DeviceSettings.KEY_HBM_SWITCH, enabled ? false : true).commit();
+        sharedPrefs.edit().putBoolean(DeviceSettings.KEY_HBM_SWITCH, enabled ? true : false).commit();
         //getQsTile().setLabel(enabled ? "HBM off" : "HBM On");
         getQsTile().setState(enabled ? Tile.STATE_INACTIVE : Tile.STATE_ACTIVE);
         getQsTile().updateTile();

@@ -1,4 +1,5 @@
-/product/bin/hw/android\.hardware\.vibrator@1\.3-service\.oneplus7pro u:object_r:hal_vibrator_default_exec:s0
+/product/bin/hw/android\.hardware\.vibrator@1\.3-service\.oneplus8pro u:object_r:hal_vibrator_default_exec:s0
+/product/bin/hw/vendor\.oneplus\.hardware\.lmvibrator@1\.0-service u:object_r:hal_vibrator_default_exec:s0
 /product/bin/hw/omni\.biometrics\.fingerprint\.inscreen@1.0-service\.oneplus8pro    u:object_r:hal_fod_msmnile_exec:s0
 
 # Vendor overlay
@@ -8,6 +9,30 @@
 /product/vendor_overlay/[0-9]+/bin/hw/android\.hardware\.light@2\.0-service    u:object_r:hal_light_default_exec:s0
 /product/bin/hw/android\.hardware\.light@2\.0-service    u:object_r:hal_light_default_exec:s0
 # Health - vendor overlay
-/product/vendor_overlay/[0-9]+/bin/hw/android\.hardware\.health@2\.0-service    u:object_r:hal_health_default_exec:s0
+/product/vendor_overlay/[0-9]+/bin/hw/android\.hardware\.health@2\.1-service    u:object_r:hal_health_default_exec:s0
+/product/vendor_overlay/[0-9]+/bin/hw/vendor\.oneplus\.hardware\.lmvibrator@1\.0-service    u:object_r:hal_vibrator_default_exec:s0
 
 /product/bin/dashd u:object_r:dashd:s0
+
+/sys/class/leds/vibrator/haptic_audio u:object_r:sysfs_oem:s0
+/sys/class/leds/vibrator/od_clamp u:object_r:sysfs_oem:s0
+/sys/class/leds/vibrator/ol_lra_period u:object_r:sysfs_oem:s0
+/sys/class/leds/vibrator/autocal u:object_r:sysfs_oem:s0
+/sys/class/leds/vibrator/waveform_index u:object_r:sysfs_oem:s0
+/sys/class/leds/vibrator/ignore_sync u:object_r:sysfs_oem:s0
+
+/sys/devices/platform/soc/a8c000\.i2c/i2c-3/3-005a/leds/vibrator/activate      u:object_r:sysfs_oem:s0
+/sys/devices/platform/soc/a8c000\.i2c/i2c-3/3-005a/leds/vibrator/rtp       u:object_r:sysfs_oem:s0
+/sys/devices/platform/soc/a8c000\.i2c/i2c-3/3-005a/leds/vibrator/activate_mode     u:object_r:sysfs_oem:s0
+/sys/devices/platform/soc/a8c000\.i2c/i2c-3/3-005a/leds/vibrator/ignore_store      u:object_r:sysfs_oem:s0
+/sys/devices/platform/soc/a8c000\.i2c/i2c-3/3-005a/leds/vibrator/gain       u:object_r:sysfs_oem:s0
+/sys/devices/platform/soc/a8c000\.i2c/i2c-3/3-005a/leds/vibrator/brightness        u:object_r:sysfs_oem:s0
+/sys/devices/platform/soc/a8c000\.i2c/i2c-3/3-005a/leds/vibrator/duration      u:object_r:sysfs_oem:s0
+/sys/devices/platform/soc/a8c000\.i2c/i2c-3/3-005a/leds/vibrator/state      u:object_r:sysfs_oem:s0
+/sys/devices/platform/soc/a8c000\.i2c/i2c-3/3-005a/leds/vibrator/seq       u:object_r:sysfs_oem:s0
+/sys/devices/platform/soc/a8c000\.i2c/i2c-3/3-005a/leds/vibrator/loop      u:object_r:sysfs_oem:s0
+
+
+/sys/class/power_supply/battery/current_now u:object_r:sysfs_oem:s0
+/sys/class/power_supply/battery/voltage_now u:object_r:sysfs_oem:s0
+/sys/class/power_supply/battery/fastchg_status u:object_r:sysfs_oem:s0

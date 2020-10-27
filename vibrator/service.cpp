@@ -44,10 +44,10 @@ static constexpr char LP_TRIGGER_PATH[] = "/sys/class/leds/vibrator/haptic_audio
 static constexpr char LRA_WAVE_SHAPE_PATH[] = "/sys/class/leds/vibrator/lra_resistance";
 static constexpr char OD_CLAMP_PATH[] = "/sys/class/leds/vibrator/od_clamp";
 // Kernel ABIs for updating the calibration data
-static constexpr char AUTOCAL_CONFIG[] = "autocal";
-static constexpr char LRA_PERIOD_CONFIG[] = "lra";
-static constexpr char AUTOCAL_FILEPATH[] = "/sys/class/leds/vibrator/autocal";
-static constexpr char OL_LRA_PERIOD_FILEPATH[] = "/sys/class/leds/vibrator/ol_lra_period";
+static constexpr char AUTOCAL_CONFIG[] = "/sys/class/leds/vibrator/f0_cali_data";
+static constexpr char LRA_PERIOD_CONFIG[] = "/sys/class/leds/vibrator/haptic_audio_time";
+static constexpr char AUTOCAL_FILEPATH[] = "/sys/class/leds/vibrator/short_circuit_check";
+static constexpr char OL_LRA_PERIOD_FILEPATH[] = "/sys/class/leds/vibrator/haptic_audio_tp_time";
 // Set a default lra period in case there is no calibration file
 static constexpr uint32_t DEFAULT_LRA_PERIOD = 173;
 static constexpr uint32_t DEFAULT_FREQUENCY_SHIFT = 10;
