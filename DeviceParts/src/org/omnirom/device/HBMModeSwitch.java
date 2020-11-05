@@ -56,7 +56,7 @@ public class HBMModeSwitch implements OnPreferenceChangeListener {
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         Boolean enabled = (Boolean) newValue;
-        Settings.System.putInt(mContext.getContentResolver(), SETTINGS_KEY, enabled ? 5 : 0);
+        Settings.System.putInt(mContext.getContentResolver(), SETTINGS_KEY, enabled ? 1 : 0);
         Utils.writeValue(getFile(), enabled ? "5" : "0");
         return true;
     }

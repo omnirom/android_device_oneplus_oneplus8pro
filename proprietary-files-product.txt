@@ -293,7 +293,7 @@ system_ext/lib64/vendor.qti.voiceprint@1.0.so
 -system_ext/app/QdcmFF/QdcmFF.apk
 -system_ext/app/QtiSystemService/QtiSystemService.apk
 -system_ext/app/embms/embms.apk
--system_ext/app/OPSoundTuner/OPSoundTuner.apk
+-system_ext/app/OPSoundTuner/OPSoundTuner.apk|74fb462adb0e4b5ed21eddbe0f3441d75e84290a
 #-system_ext/app/OPTelephonyCollectionData/OPTelephonyCollectionData.apk
 -system_ext/app/datastatusnotification/datastatusnotification.apk
 -system_ext/app/colorservice/colorservice.apk
@@ -773,4 +773,5 @@ product/etc/permissions/privapp-permissions-oem-product.xml
 
 -system_ext/overlay/CommonOverlay-OpNetworkStackConfig.apk
 -system_ext/overlay/CommonOverlay-OpWifiResource.apk
+-product/overlay/WifiResCommon.apk
 
