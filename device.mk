@@ -215,10 +215,6 @@ PRODUCT_BOOT_JARS += UxPerformance
 PRODUCT_BOOT_JARS += QPerformance
 #PRODUCT_BOOT_JARS += android.hidl.manager-V1.0-java
 
-# Video seccomp policy files
-PRODUCT_COPY_FILES += \
-    device/oneplus/oneplus8pro/seccomp/codec2.software.ext.policy:$(TARGET_COPY_OUT)/etc/seccomp_policy/codec2.software.ext.policy
-
 PRODUCT_PACKAGES += oneplus8-mock
 PRODUCT_BOOT_JARS += oneplus8-mock
 
@@ -227,9 +223,14 @@ TARGET_FS_CONFIG_GEN := device/oneplus/oneplus8pro/config.fs
 PRODUCT_MANIFEST_FILES += \
     device/oneplus/oneplus8pro/vintf/com.qualcomm.qti.uceservice-2.2.xml \
     device/oneplus/oneplus8pro/vintf/android.hardware.sensors-2.0.xml \
-    device/oneplus/oneplus8pro/vintf/vendor.omni.biometrics.fingerprint.inscreen-1.0-service.xml
+    device/oneplus/oneplus8pro/vintf/vendor.omni.biometrics.fingerprint.inscreen-1.0-service.xml \
+    device/oneplus/oneplus8pro/vintf/android.hardware.vibrator.1.3-service.xml
+
 
 PRODUCT_PACKAGES += DeskClock
+PRODUCT_PACKAGES += qtiImsInCallUi
+PRODUCT_PACKAGES += ConfURIDialer
+#PRODUCT_PACKAGES += android.hardware.vibrator@1.3-service.oneplus8pro
 
 $(call inherit-product, build/make/target/product/gsi_keys.mk)
 

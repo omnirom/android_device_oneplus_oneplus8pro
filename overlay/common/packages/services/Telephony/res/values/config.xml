@@ -46,5 +46,5 @@
     <!-- String indicating the package name of the device ImsService implementation for RCS. -->
     <string name="config_ims_rcs_package">org.codeaurora.ims</string>
 
-    <string name="platform_number_verification_package">com.google.android.gms</string>
+    <string name="platform_number_verification_package"></string>
 </resources>

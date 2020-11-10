@@ -15,6 +15,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 *
 */
+/*
 package org.omnirom.device;
 
 import android.app.AlertDialog;
@@ -107,3 +108,4 @@ public class PanelSettings extends PreferenceFragment implements RadioGroup.OnCh
         mCurrentMode = checkedId;
     }
 }
+*/

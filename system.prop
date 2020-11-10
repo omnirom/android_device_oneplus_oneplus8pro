@@ -227,7 +227,6 @@ ro.apex.updatable=true
 ro.camera.notify_nfc=0
 ro.boot.project_name=19811
 ro.vendor.boot.project_name=19811
-persist.vendor.sys.fp.fod.location.X_Y=605,2613
 persist.data.iwlan.enable=true
 
 #persist.sys.camera.preview.size=1920x1080
@@ -242,9 +241,6 @@ persist.sys.fflag.override.settings_network_and_internet_v2=true
 #sdm.debug.disable_inline_rotator_secure=1
 #persist.vendor.diag.max.size=500
 
-ro.vibrator.hal.tick.duration=0
-ro.vibrator.hal.click.duration=0
-ro.vibrator.hal.heavyclick.duration=10
 persist.radio.physical.slot.count=2
 ro.kernel.ebpf.supported=true
 ro.surface_flinger.supports_background_blur=1

@@ -1,12 +1,12 @@
 on early-init
 #    mount none /system/lib/modules/wlan.ko /vendor/lib/modules/qca_cld3_wlan.ko bind
 
-    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/FrameworksResCommon.apk bind
+    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/VendorOverlay-framework-res.apk bind
     mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/FrameworksResTarget.apk bind
-    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/OPFrameworkConfigOverlay.apk bind
-    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/SystemUIResCommon.apk bind
-    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/TelecommResCommon.apk bind
-    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/TelephonyResCommon.apk bind
+    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/VendorOverlay-oneplus-framework-res.apk bind
+    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/VendorOverlay-OPSettingsProvider.apk bind
+    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/VendorOverlay-OPSystemUI.apk bind
+    mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/VendorOverlay-OPWifiApSettings.apk bind
     mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/CellBroadcastReceiverResCommon.apk bind
     mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/oneplus_shape_squircle/OnePlusIconShapeSquircleOverlay.apk bind
     mount none /product/overlay/EmptyProductOverlay/EmptyProductOverlay.apk /vendor/overlay/oneplus_shape_circle/OnePlusIconShapeCircleOverlay.apk bind
@@ -91,3 +91,9 @@ on property:vendor.display.lcd_density=540
 
 service vendor.light-hal-2-0 /system/bin/true
     disabled
+
+#service vendor.lmvibrator-1-0 /system/bin/true
+#    disabled
+
+#service vendor.qti.vibrator /system/bin/true
+#    disabled

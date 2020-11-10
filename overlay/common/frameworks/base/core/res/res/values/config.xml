@@ -302,10 +302,10 @@
     <!-- Common options are [1, 4] for TYPE_WIFI and TYPE_MOBILE_DUN or
          [0,1,5,7] for TYPE_MOBILE, TYPE_WIFI, TYPE_MOBILE_HIPRI and TYPE_BLUETOOTH -->
     <integer-array translatable="false" name="config_tether_upstream_types">
-        <item>1</item>
-        <item>7</item>
         <item>0</item>
+        <item>1</item>
         <item>5</item>
+        <item>7</item>
     </integer-array>
 
     <!-- If this is true, the screen will come on when you unplug usb/power/whatever. -->
@@ -318,6 +318,10 @@
   <bool translatable="false" name="config_wifi_softap_acs_supported">true</bool>
   <!-- Enable 802.11ac for Wifi hotspot (SAP) -->
   <bool translatable="false" name="config_wifi_softap_ieee80211ac_supported">true</bool>
+  <bool name="config_wifi_p2p_mac_randomization_supported">true</bool>
+  <bool name="config_wifi_dual_sap_mode_enabled">false</bool>
+  <bool name="config_wifi_connected_mac_randomization_supported">true</bool>
+
 
     <!-- Wifi driver supports batched scan -->
     <bool translatable="false" name="config_wifi_batched_scan_supported">true</bool>
@@ -545,7 +549,7 @@
 
          Refer to power.h for details.
     -->
-    <bool name="config_powerDecoupleInteractiveModeFromDisplay">true</bool>
+    <bool name="config_powerDecoupleInteractiveModeFromDisplay">false</bool>
 
     <!-- enable doze powersaving mode -->
     <bool name="config_enableAutoPowerModes">true</bool>
@@ -610,7 +614,7 @@
 
     <!-- Flag specifying whether VoLTE & VT is available on device -->
     <bool name="config_device_volte_available">true</bool>
-    <bool name="config_device_vt_available">true</bool>
+    <bool name="config_device_vt_available">false</bool>
 
     <!-- Flag specifying whether VoLTE should be available for carrier: independent of
          carrier provisioning. If false: hard disabled. If true: then depends on carrier
@@ -633,10 +637,13 @@
 
     <!-- Vibrator pattern for feedback about touching a virtual key -->
     <integer-array name="config_virtualKeyVibePattern">
+        <item>100</item>
+        <item>20</item>
     </integer-array>
 
     <!-- Vibrator pattern for a very short but reliable vibration for soft keyboard tap -->
     <integer-array name="config_keyboardTapVibePattern">
+        <item>20</item>
     </integer-array>
 
     <!-- Boolean indicating if current platform supports BLE peripheral mode -->
@@ -800,11 +807,21 @@
         <item>0</item>
         <item>1</item>
         <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>7</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>5</item>
+        <item>8</item>
+        <item>6</item>
     </integer-array>
 
     <!-- The default peak refresh rate for a given device. Change this value if you want to allow
          for higher refresh rates to be automatically used out of the box -->
     <integer name="config_defaultPeakRefreshRate">120</integer>
+    <integer name="config_defaultRefreshRate">60</integer>
 
     <integer name="config_defaultMaxCachedProcesses">64</integer>
 
@@ -838,4 +855,5 @@
     <string-array name="config_biometric_sensors" translatable="false" >
         <item>0:2:15</item> <!-- ID0:Fingerprint:Strong -->
     </string-array>
+
 </resources>

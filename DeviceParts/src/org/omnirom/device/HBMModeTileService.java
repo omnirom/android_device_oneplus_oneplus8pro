@@ -68,7 +68,7 @@ public class HBMModeTileService extends TileService {
         Utils.writeValue(HBMModeSwitch.getFile(), enabled ? "5" : "0");
         sharedPrefs.edit().putBoolean(DeviceSettings.KEY_HBM_SWITCH, enabled ? true : false).commit();
         getQsTile().setLabel(enabled ? "HBM on" : "HBM off");
-        getQsTile().setState(enabled ? Tile.STATE_INACTIVE : Tile.STATE_ACTIVE);
+        getQsTile().setState(enabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
         getQsTile().updateTile();
     }
 }

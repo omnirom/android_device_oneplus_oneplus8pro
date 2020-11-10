@@ -1,8 +1,5 @@
 -sbin/dashd:/product/bin/dashd
 
-#lib64/libaptXHD_encoder.so|90f47f10af28b3ead143200cb4370b847c513127
-#lib64/libaptX_encoder.so|0cebad28afcf29f931bdc2d24fce2730dc882ecf
-
 lib64/libcalibverif_jni.so
 lib/libcalibverif_jni.so
 
@@ -19,3 +16,7 @@ system/etc/permissions/qcnvitems.xml
 etc/permissions/privapp-permissions-qti.xml
 etc/permissions/privapp-permissions-oem-system.xml
 etc/permissions/privapp-permissions-com.quicinc.voice.activation.xml
+
+-system/priv-app/QualcommVoiceActivation/QualcommVoiceActivation.apk;PRESIGNED
+-system/app/aptxals/aptxals.apk
+-system/etc/sysconfig/qti_whitelist.xml

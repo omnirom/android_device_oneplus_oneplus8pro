@@ -60,12 +60,6 @@ public class Startup extends BroadcastReceiver {
             enabled = sharedPrefs.getBoolean(DeviceSettings.KEY_DCD_SWITCH, false);
             Settings.System.putInt(context.getContentResolver(), DCDModeSwitch.SETTINGS_KEY, enabled ? 1 : 0);
 
-            enabled = sharedPrefs.getBoolean(DeviceSettings.KEY_DCI_SWITCH, false);
-            Settings.System.putInt(context.getContentResolver(), DCIModeSwitch.SETTINGS_KEY, enabled ? 1 : 0);
-
-            enabled = sharedPrefs.getBoolean(DeviceSettings.KEY_NIGHT_SWITCH, false);
-            Settings.System.putInt(context.getContentResolver(), NightModeSwitch.SETTINGS_KEY, enabled ? 1 : 0);
-
             String vibrStrength = sharedPrefs.getString(DeviceSettings.KEY_VIBSTRENGTH, VibratorStrengthPreference.DEFAULT_VALUE); 
             Settings.System.putString(context.getContentResolver(), VibratorStrengthPreference.SETTINGS_KEY, vibrStrength);
 
@@ -150,26 +144,6 @@ public class Startup extends BroadcastReceiver {
         enabled = !TextUtils.isEmpty(value) && !value.equals(AppSelectListPreference.DISABLED_ENTRY);
         restore(getGestureFile(GestureSettings.KEY_GESTURE_S_APP), enabled);
 
-        enabled = Settings.System.getInt(context.getContentResolver(), SRGBModeSwitch.SETTINGS_KEY, 0) != 0;
-        if (enabled) {
-            restore(SRGBModeSwitch.getFile(), enabled);
-        }
-        enabled = Settings.System.getInt(context.getContentResolver(), DCDModeSwitch.SETTINGS_KEY, 0) != 0;
-        if (enabled) {
-            restore(DCDModeSwitch.getFile(), enabled);
-        }
-        enabled = Settings.System.getInt(context.getContentResolver(), DCIModeSwitch.SETTINGS_KEY, 0) != 0;
-        if (enabled) {
-            restore(DCIModeSwitch.getFile(), enabled);
-        }
-        enabled = Settings.System.getInt(context.getContentResolver(), WideColorModeSwitch.SETTINGS_KEY, 0) != 0;
-        if (enabled) {
-            restore(WideColorModeSwitch.getFile(), enabled);
-        }
-        enabled = Settings.System.getInt(context.getContentResolver(), NightModeSwitch.SETTINGS_KEY, 0) != 0;
-        if (enabled) {
-            restore(NightModeSwitch.getFile(), enabled);
-        }
         enabled = Settings.System.getInt(context.getContentResolver(), HBMModeSwitch.SETTINGS_KEY, 0) != 0;
         if (enabled) {
             restore(HBMModeSwitch.getFile(), enabled);

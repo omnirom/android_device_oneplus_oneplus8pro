@@ -142,6 +142,7 @@ Return<void> FingerprintInscreen::onShowFODView() {
     set(NATIVE_DISPLAY_WIDE, 0);
 
     this->mFodCircleVisible = true;
+    this->mVendorDisplayService->setMode(7, 1);
     return Void();
 }
 
