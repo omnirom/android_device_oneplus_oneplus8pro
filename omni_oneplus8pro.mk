@@ -33,7 +33,7 @@ $(call inherit-product, vendor/omni/config/gsm.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_base_telephony.mk)
 
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
-PRODUCT_BUILD_SUPER_PARTITION := false
+PRODUCT_BUILD_SUPER_PARTITION := true
 PRODUCT_BUILD_PRODUCT_IMAGE  := true
 PRODUCT_BUILD_SYSTEM_EXT_IMAGE  := true
 TARGET_COPY_OUT_SYSTEM_EXT := system_ext
@@ -76,6 +76,8 @@ BOARD_USES_RECOVERY_AS_BOOT := false
 TARGET_BOOTANIMATION_SIZE := 1080p
 AB_OTA_UPDATER := true
 
+TARGET_RELEASETOOLS_EXTENSIONS ?= device/oneplus/oneplus8pro/releasetools/
+
 DEVICE_PACKAGE_OVERLAYS += device/oneplus/oneplus8pro/overlay/device
 DEVICE_PACKAGE_OVERLAYS += device/oneplus/oneplus8pro/overlay/common
 DEVICE_PACKAGE_OVERLAYS += vendor/omni/overlay/CarrierConfig
@@ -105,12 +107,12 @@ PRODUCT_MODEL := IN2023
 TARGET_DEVICE := OnePlus8Pro
 PRODUCT_SYSTEM_NAME := OnePlus8Pro
 
-VENDOR_RELEASE := 11/RP1A.201005.001/2009301800:user/release-keys
+VENDOR_RELEASE := 11/RP1A.201005.001/2011010100:user/release-keys
 BUILD_FINGERPRINT := OnePlus/OnePlus8Pro_EEA/OnePlus8Pro:$(VENDOR_RELEASE)
 OMNI_BUILD_FINGERPRINT := OnePlus/OnePlus8Pro_EEA/OnePlus8Pro:$(VENDOR_RELEASE)
-OMNI_PRIVATE_BUILD_DESC := "'OnePlus8Pro-user 11 RP1A.201005.001 2009301800'"
+OMNI_PRIVATE_BUILD_DESC := "'OnePlus8Pro-user 11 RP1A.201005.001 2011010100'"
 
-PLATFORM_SECURITY_PATCH_OVERRIDE := 2020-09-01
+PLATFORM_SECURITY_PATCH_OVERRIDE := 2020-10-01
 
 TARGET_VENDOR := oneplus
 
@@ -123,6 +125,11 @@ PRODUCT_ENFORCE_RRO_EXEMPTED_TARGETS := vendor
 DISABLE_ARTIFACT_PATH_REQUIREMENTS := true
 TARGET_SKIP_OTATOOLS_PACKAGE := false
 
+BOARD_PREBUILT_VENDORIMAGE := vendor/image/oneplus/oneplus8pro/vendor.img
+BOARD_PREBUILT_ODMIMAGE := vendor/image/oneplus/oneplus8pro/odm.img
+
 $(call inherit-product, device/oneplus/oneplus8pro/qssi_whitelist.mk)
 
 $(call inherit-product, vendor/oneplus/oneplus8pro/oneplus8pro-vendor.mk)
+
+$(call inherit-product, device/oneplus/oneplus8pro/op8pro.mk)

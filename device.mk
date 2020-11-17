@@ -28,7 +28,8 @@ PRODUCT_PACKAGES += \
     android.hidl.manager@1.2 \
     libcutils \
     libtflite \
-    libtextclassifier_hash
+    libtextclassifier_hash \
+    libavservices_minijail
 
 PRODUCT_PACKAGES += \
     libinit_oneplus8pro \
@@ -73,9 +74,6 @@ PRODUCT_PACKAGES_DEBUG += \
 
 # Boot control
 PRODUCT_PACKAGES += \
-    android.hardware.boot@1.0-impl.recovery \
-    bootctrl.kona.recovery \
-    bootctrl.kona \
     fastbootd
 
 PRODUCT_PACKAGES_DEBUG += \
@@ -99,12 +97,6 @@ PRODUCT_PACKAGES += \
 # Permissions
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.software.verified_boot.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/android.software.verified_boot.xml
-
-# Prebuilt
-PRODUCT_COPY_FILES += \
-    $(call find-copy-subdir-files,*,device/oneplus/oneplus8pro/prebuilt/system,system) \
-    $(call find-copy-subdir-files,*,device/oneplus/oneplus8pro/prebuilt/product,product) \
-    $(call find-copy-subdir-files,*,device/oneplus/oneplus8pro/prebuilt/root,root)
 
 PRODUCT_PACKAGES += fstab.qcom
 
@@ -167,7 +159,7 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES += \
     vendor.display.config@2.0 \
-    libdisplayconfig \
+    libdisplayconfig.qti \
     libqdMetaData \
     vendor.nxp.nxpese@1.0 \
     vendor.nxp.nxpnfc@1.0 \
@@ -231,6 +223,31 @@ PRODUCT_PACKAGES += DeskClock
 PRODUCT_PACKAGES += qtiImsInCallUi
 PRODUCT_PACKAGES += ConfURIDialer
 #PRODUCT_PACKAGES += android.hardware.vibrator@1.3-service.oneplus8pro
+ifneq ($(filter $(ROM_BUILD_RADIO), true),)
+AB_OTA_PARTITIONS += abl
+AB_OTA_PARTITIONS += aop
+AB_OTA_PARTITIONS += bluetooth
+AB_OTA_PARTITIONS += cmnlib64
+AB_OTA_PARTITIONS += cmnlib
+AB_OTA_PARTITIONS += devcfg
+AB_OTA_PARTITIONS += dsp
+AB_OTA_PARTITIONS += featenabler
+AB_OTA_PARTITIONS += hyp
+AB_OTA_PARTITIONS += imagefv
+AB_OTA_PARTITIONS += keymaster
+AB_OTA_PARTITIONS += logo
+#AB_OTA_PARTITIONS += mdm_oem_stanvbk
+AB_OTA_PARTITIONS += modem
+AB_OTA_PARTITIONS += multiimgoem
+AB_OTA_PARTITIONS += qupfw
+AB_OTA_PARTITIONS += storsec
+#AB_OTA_PARTITIONS += spunvm
+#AB_OTA_PARTITIONS += reserve
+AB_OTA_PARTITIONS += tz
+AB_OTA_PARTITIONS += uefisecapp
+AB_OTA_PARTITIONS += xbl_config
+AB_OTA_PARTITIONS += xbl
+endif
 
 $(call inherit-product, build/make/target/product/gsi_keys.mk)
 

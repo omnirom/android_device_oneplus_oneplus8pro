@@ -27,7 +27,7 @@
 
 LOCAL_PATH := $(call my-dir)
 
-ifeq ($(TARGET_DEVICE),$(filter $(TARGET_DEVICE),oneplus8pro))
+ifeq ($(TARGET_DEVICE),$(filter $(TARGET_DEVICE),oneplus8pro oneplus8t))
 
 subdir_makefiles=$(call first-makefiles-under,$(LOCAL_PATH))
 $(foreach mk,$(subdir_makefiles),$(info including $(mk) ...)$(eval include $(mk)))

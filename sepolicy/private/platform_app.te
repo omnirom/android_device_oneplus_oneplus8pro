@@ -3,22 +3,26 @@ allow platform_app sysfs_battery_supply:file r_file_perms;
 
 allow platform_app vendor_camera_prop:file { read open getattr map };
 
-#allow platform_app adsprpcd_file:dir { getattr search read };
+allow platform_app adsprpcd_file:dir { getattr search read };
 allow platform_app hal_camera:binder { call transfer };
 allow platform_app oem_file:dir search;
 allow platform_app sysfs_kgsl:file { getattr open read };
 allow platform_app sysfs_net:dir search;
 allow platform_app sysfs_net:file { open read };
 
-#allow platform_app adsprpcd_file:file r_file_perms;
+allow platform_app adsprpcd_file:file r_file_perms;
 
 allow platform_app radio_data_file:dir r_dir_perms;
 
-allow platform_app vendor_qdsp_device:chr_file { read open };
-allow platform_app vendor_xdsp_device:chr_file { open read };
-allow platform_app vendor_sysfs_kgsl:file { read open };
+allow platform_app vendor_qdsp_device:chr_file { read open getattr ioctl };
+allow platform_app vendor_xdsp_device:chr_file { open read getattr ioctl };
+allow platform_app vendor_sysfs_kgsl:file { read open getattr ioctl };
 allow platform_app vendor_hal_camera_postproc_hwservice:hwservice_manager find;
 type vendor_sysfs_kgsl, fs_type, sysfs_type;
 type vendor_qdsp_device, dev_type;
 type vendor_xdsp_device, dev_type;
 allow platform_app app_data_file:file execute;
+
+
+allow platform_app vendor_sysfs_battery_supply:dir { search read open };
+allow platform_app vendor_sysfs_battery_supply:file r_file_perms;
