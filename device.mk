@@ -215,14 +215,14 @@ TARGET_FS_CONFIG_GEN := device/oneplus/oneplus8pro/config.fs
 PRODUCT_MANIFEST_FILES += \
     device/oneplus/oneplus8pro/vintf/com.qualcomm.qti.uceservice-2.2.xml \
     device/oneplus/oneplus8pro/vintf/android.hardware.sensors-2.0.xml \
-    device/oneplus/oneplus8pro/vintf/vendor.omni.biometrics.fingerprint.inscreen-1.0-service.xml \
-    device/oneplus/oneplus8pro/vintf/android.hardware.vibrator.1.3-service.xml
+    device/oneplus/oneplus8pro/vintf/vendor.omni.biometrics.fingerprint.inscreen-1.0-service.xml
 
 
 PRODUCT_PACKAGES += DeskClock
 PRODUCT_PACKAGES += qtiImsInCallUi
 PRODUCT_PACKAGES += ConfURIDialer
-#PRODUCT_PACKAGES += android.hardware.vibrator@1.3-service.oneplus8pro
+PRODUCT_PACKAGES += android.hardware.vibrator-service.oneplus8
+
 ifneq ($(filter $(ROM_BUILD_RADIO), true),)
 AB_OTA_PARTITIONS += abl
 AB_OTA_PARTITIONS += aop

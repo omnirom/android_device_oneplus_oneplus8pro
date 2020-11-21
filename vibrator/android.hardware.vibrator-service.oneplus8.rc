@@ -1,0 +1,5 @@
+service system.vibrator-omni /product/bin/hw/android.hardware.vibrator-service.oneplus8
+    setenv HWAPI_PATH_PREFIX /sys/class/leds/vibrator/
+    class hal
+    user system
+    group system

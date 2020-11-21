@@ -13,79 +13,134 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef ANDROID_HARDWARE_VIBRATOR_V1_3_VIBRATOR_H
-#define ANDROID_HARDWARE_VIBRATOR_V1_3_VIBRATOR_H
-#include <android/hardware/vibrator/1.3/IVibrator.h>
-#include <hidl/Status.h>
+#pragma once
+
+#include <aidl/android/hardware/vibrator/BnVibrator.h>
+
 #include <fstream>
+
+namespace aidl {
 namespace android {
 namespace hardware {
 namespace vibrator {
-namespace V1_3 {
-namespace implementation {
-class Vibrator : public IVibrator {
-public:
-    Vibrator(std::ofstream&& activate,
-            std::ofstream&& ignore_sync,
-            std::ofstream&& duration,
-            std::ofstream&& vmax,
-            std::ofstream&& gain,
-            std::ofstream&& brightness,
-            std::ofstream&& state, std::ofstream&& rtpinput,
-            std::ofstream&& mode, std::ofstream&& sequencer,
-            std::ofstream&& scale, std::ofstream&& ctrlloop,
-            std::ofstream&& lptrigger,
-            std::ofstream&& lrawaveshape, std::ofstream&& odclamp, std::ofstream&& ollraperiod,
-            std::uint32_t short_lra_period, std::uint32_t long_lra_period);
-    // Methods from ::android::hardware::vibrator::V1_0::IVibrator follow.
-    using Status = ::android::hardware::vibrator::V1_0::Status;
-    Return<Status> on(uint32_t timeoutMs)  override;
-    Return<Status> off()  override;
-    Return<bool> supportsAmplitudeControl() override;
-    Return<Status> setAmplitude(uint8_t amplitude) override;
-    using EffectStrength = ::android::hardware::vibrator::V1_0::EffectStrength;
-    
-    // Methods from ::android::hardware::vibrator::V1_3::IVibrator follow.
-    Return<bool> supportsExternalControl() override;
-    Return<Status> setExternalControl(bool enabled) override;
 
-    Return<void> perform(V1_0::Effect effect, EffectStrength strength, perform_cb _hidl_cb)
-            override;
-    Return<void> perform_1_1(V1_1::Effect_1_1 effect, EffectStrength strength, perform_cb _hidl_cb)
-            override;
-    Return<void> perform_1_2(V1_2::Effect effect, EffectStrength strength, perform_cb _hidl_cb) override;
-    Return<void> perform_1_3(Effect effect, EffectStrength strength, perform_cb _hidl_cb) override;
-private:
-    Return<Status> on(uint32_t timeoutMs, bool isWaveform);
-    Return<void> performEffect(Effect effect, EffectStrength strength, perform_cb _hidl_cb);
-    std::ofstream mActivate;
-    std::ofstream mIgnoreStore;
-    std::ofstream mDuration;
-    std::ofstream mVmax;
-    std::ofstream mGain;
-    std::ofstream mBrightness;
-    std::ofstream mState;
-    std::ofstream mRtpInput;
-    std::ofstream mMode;
-    std::ofstream mSequencer;
-    std::ofstream mScale;
-    std::ofstream mCtrlLoop;
-    std::ofstream mLpTriggerEffect;
-    std::ofstream mLraWaveShape;
-    std::ofstream mOdClamp;
-    std::ofstream mOlLraPeriod;
-    std::uint32_t mShortLraPeriod;
-    std::uint32_t mLongLraPeriod;
-    int32_t mClickDuration;
-    int32_t mTickDuration;
-    int32_t mHeavyClickDuration;
-    int32_t mShortVoltageMax;
-    int32_t mLongVoltageMax;
-    bool shouldBright;
+class Vibrator : public BnVibrator {
+  public:
+    // APIs for interfacing with the kernel driver.
+    class HwApi {
+      public:
+        virtual ~HwApi() = default;
+        // Stores the COMP, BEMF, and GAIN calibration values to use.
+        //   <COMP> <BEMF> <GAIN>
+        virtual bool setAutocal(std::string value) = 0;
+        // Stores the open-loop LRA frequency to be used.
+        virtual bool setOlLraPeriod(uint32_t value) = 0;
+        // Activates/deactivates the vibrator for durations specified by
+        // setDuration().
+        virtual bool setActivate(bool value) = 0;
+        // Specifies the vibration duration in milliseconds.
+        virtual bool setDuration(uint32_t value) = 0;
+        // Specifies the active state of the vibrator
+        // (true = enabled, false = disabled).
+        virtual bool setState(bool value) = 0;
+        // Reports whether setRtpInput() is supported.
+        virtual bool hasRtpInput() = 0;
+        // Specifies the playback amplitude of the haptic waveforms in RTP mode.
+        // Negative numbers indicates braking.
+        virtual bool setRtpInput(int8_t value) = 0;
+        // Specifies the mode of operation.
+        //   rtp        - RTP Mode
+        //   waveform   - Waveform Sequencer Mode
+        //   diag       - Diagnostics Routine
+        //   autocal    - Automatic Level Calibration Routine
+        virtual bool setMode(std::string value) = 0;
+        // Specifies a waveform sequence in index-count pairs.
+        //   <index-1> <count-1> [<index-2> <cound-2> ...]
+        virtual bool setSequencer(std::string value) = 0;
+        // Specifies the scaling of effects in Waveform mode.
+        //   0 - 100%
+        //   1 - 75%
+        //   2 - 50%
+        //   3 - 25%
+        virtual bool setScale(uint8_t value) = 0;
+        // Selects either closed loop or open loop mode.
+        // (true = open, false = closed).
+        virtual bool setCtrlLoop(bool value) = 0;
+        // Specifies waveform index to be played in low-power trigger mode.
+        //   0  - Disabled
+        //   1+ - Waveform Index
+        virtual bool setLpTriggerEffect(uint32_t value) = 0;
+        // Specifies which shape to use for driving the LRA when in open loop
+        // mode.
+        //   0 - Square Wave
+        //   1 - Sine Wave
+        virtual bool setLraWaveShape(uint32_t value) = 0;
+        // Specifies the maximum voltage for automatic overdrive and automatic
+        // braking periods.
+        virtual bool setOdClamp(uint32_t value) = 0;
+        // Emit diagnostic information to the given file.
+        virtual void debug(int fd) = 0;
+    };
+
+  private:
+    enum class LoopControl : bool {
+        CLOSE = false,
+        OPEN = true,
+    };
+
+    enum class WaveShape : uint32_t {
+        SQUARE = 0,
+        SINE = 1,
+    };
+
+    struct VibrationConfig {
+        WaveShape shape;
+        uint32_t odClamp;
+        uint32_t olLraPeriod;
+    };
+
+  public:
+    Vibrator(std::unique_ptr<HwApi> hwapi);
+
+    ndk::ScopedAStatus getCapabilities(int32_t *_aidl_return) override;
+    ndk::ScopedAStatus off() override;
+    ndk::ScopedAStatus on(int32_t timeoutMs,
+                          const std::shared_ptr<IVibratorCallback> &callback) override;
+    ndk::ScopedAStatus perform(Effect effect, EffectStrength strength,
+                               const std::shared_ptr<IVibratorCallback> &callback,
+                               int32_t *_aidl_return) override;
+    ndk::ScopedAStatus getSupportedEffects(std::vector<Effect> *_aidl_return) override;
+    ndk::ScopedAStatus setAmplitude(float amplitude) override;
+    ndk::ScopedAStatus setExternalControl(bool enabled) override;
+    ndk::ScopedAStatus getCompositionDelayMax(int32_t *maxDelayMs);
+    ndk::ScopedAStatus getCompositionSizeMax(int32_t *maxSize);
+    ndk::ScopedAStatus getSupportedPrimitives(std::vector<CompositePrimitive> *supported) override;
+    ndk::ScopedAStatus getPrimitiveDuration(CompositePrimitive primitive,
+                                            int32_t *durationMs) override;
+    ndk::ScopedAStatus compose(const std::vector<CompositeEffect> &composite,
+                               const std::shared_ptr<IVibratorCallback> &callback) override;
+    ndk::ScopedAStatus getSupportedAlwaysOnEffects(std::vector<Effect> *_aidl_return) override;
+    ndk::ScopedAStatus alwaysOnEnable(int32_t id, Effect effect, EffectStrength strength) override;
+    ndk::ScopedAStatus alwaysOnDisable(int32_t id) override;
+
+    binder_status_t dump(int fd, const char **args, uint32_t numArgs) override;
+
+  private:
+    ndk::ScopedAStatus on(uint32_t timeoutMs, const char mode[],
+                          const std::unique_ptr<VibrationConfig> &config);
+    ndk::ScopedAStatus performEffect(Effect effect, EffectStrength strength, int32_t *outTimeMs);
+
+    std::unique_ptr<HwApi> mHwApi;
+    uint32_t mCloseLoopThreshold;
+    std::unique_ptr<VibrationConfig> mSteadyConfig;
+    std::unique_ptr<VibrationConfig> mEffectConfig;
+    uint32_t mClickDuration = 1;
+    uint32_t mTickDuration = 1;
+    uint32_t mDoubleClickDuration = 1;
+    uint32_t mHeavyClickDuration = 2;
 };
-}  // namespace implementation
-}  // namespace V1_3
+
 }  // namespace vibrator
 }  // namespace hardware
 }  // namespace android
-#endif  // ANDROID_HARDWARE_VIBRATOR_V1_3_VIBRATOR_H
+}  // namespace aidl

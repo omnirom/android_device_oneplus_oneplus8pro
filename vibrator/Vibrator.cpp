@@ -13,276 +13,333 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#define LOG_TAG "android.hardware.vibrator@1.3-service.oneplus8pro"
-#include <log/log.h>
+
+
+#include "Vibrator.h"
+#include "utils.h"
+
+#include <cutils/properties.h>
 #include <hardware/hardware.h>
 #include <hardware/vibrator.h>
-#include <cutils/properties.h>
-#include "Vibrator.h"
+#include <log/log.h>
+#include <utils/Trace.h>
+
 #include <cinttypes>
 #include <cmath>
-#include <iostream>
 #include <fstream>
+#include <iostream>
+
+namespace aidl {
 namespace android {
 namespace hardware {
 namespace vibrator {
-namespace V1_3 {
-namespace implementation {
+
 static constexpr int8_t MAX_RTP_INPUT = 127;
 static constexpr int8_t MIN_RTP_INPUT = 0;
+
 static constexpr char RTP_MODE[] = "rtp";
 static constexpr char WAVEFORM_MODE[] = "waveform";
-static constexpr uint32_t LOOP_MODE_OPEN = 1;
-static constexpr uint32_t SINE_WAVE = 1;
-static constexpr uint32_t SQUARE_WAVE = 0;
-static constexpr uint32_t VMAX = 9;
-static constexpr uint32_t GAIN = 128;
-// Default max voltage 2.15V
-static constexpr uint32_t VOLTAGE_MAX = 107;
+
 // Use effect #1 in the waveform library for CLICK effect
-static constexpr char WAVEFORM_CLICK_EFFECT_SEQ0[] = "0 1";
-static constexpr char WAVEFORM_CLICK_EFFECT_SEQ1[] = "1 0";
-static constexpr int32_t WAVEFORM_CLICK_EFFECT_MS = 0;
+static constexpr char WAVEFORM_CLICK_EFFECT_SEQ[] = "1 0";
+
 // Use effect #2 in the waveform library for TICK effect
-static constexpr char WAVEFORM_TICK_EFFECT_SEQ0[] = "0 1";
-static constexpr char WAVEFORM_TICK_EFFECT_SEQ1[] = "1 0";
-static constexpr int32_t WAVEFORM_TICK_EFFECT_MS = 0;
+static constexpr char WAVEFORM_TICK_EFFECT_SEQ[] = "1 0";
+
 // Use effect #3 in the waveform library for DOUBLE_CLICK effect
-static constexpr char WAVEFORM_DOUBLE_CLICK_EFFECT_SEQ[] = "0 1";
-static constexpr uint32_t WAVEFORM_DOUBLE_CLICK_EFFECT_MS = 10;
+static constexpr char WAVEFORM_DOUBLE_CLICK_EFFECT_SEQ[] = "1 1";
+
 // Use effect #4 in the waveform library for HEAVY_CLICK effect
-static constexpr char WAVEFORM_HEAVY_CLICK_EFFECT_SEQ0[] = "0 0";
-static constexpr char WAVEFORM_HEAVY_CLICK_EFFECT_SEQ1[] = "1 0";
-static constexpr uint32_t WAVEFORM_HEAVY_CLICK_EFFECT_MS = 10;
-using Status = ::android::hardware::vibrator::V1_0::Status;
-using EffectStrength = ::android::hardware::vibrator::V1_0::EffectStrength;
-Vibrator::Vibrator(std::ofstream&& activate,
-        std::ofstream&& ignore_store,
-        std::ofstream&& duration,
-        std::ofstream&& vmax,
-        std::ofstream&& gain,
-        std::ofstream&& brightness,
-        std::ofstream&& state, std::ofstream&& rtpinput,
-        std::ofstream&& mode, std::ofstream&& sequencer,
-        std::ofstream&& scale, std::ofstream&& ctrlloop,
-        std::ofstream&& lptrigger,
-        std::ofstream&& lrawaveshape, std::ofstream&& odclamp, std::ofstream&& ollraperiod,
-        std::uint32_t short_lra_period, std::uint32_t long_lra_period) :
-        mActivate(std::move(activate)),
-        mIgnoreStore(std::move(ignore_store)),
-        mDuration(std::move(duration)),
-        mVmax(std::move(vmax)),
-        mGain(std::move(gain)),
-        mBrightness(std::move(brightness)),
-        mState(std::move(state)),
-        mRtpInput(std::move(rtpinput)),
-        mMode(std::move(mode)),
-        mSequencer(std::move(sequencer)),
-        mScale(std::move(scale)),
-        mCtrlLoop(std::move(ctrlloop)),
-        mLpTriggerEffect(std::move(lptrigger)),
-        mLraWaveShape(std::move(lrawaveshape)),
-        mOdClamp(std::move(odclamp)),
-        mOlLraPeriod(std::move(ollraperiod)),
-        mShortLraPeriod(short_lra_period),
-        mLongLraPeriod(long_lra_period) { 
-    mClickDuration = property_get_int32("ro.vibrator.hal.click.duration", WAVEFORM_CLICK_EFFECT_MS);
-    mTickDuration = property_get_int32("ro.vibrator.hal.tick.duration", WAVEFORM_TICK_EFFECT_MS);
-    mHeavyClickDuration = property_get_int32(
-        "ro.vibrator.hal.heavyclick.duration", WAVEFORM_HEAVY_CLICK_EFFECT_MS);
-    mShortVoltageMax = property_get_int32("ro.vibrator.hal.short.voltage", VOLTAGE_MAX);
-    mLongVoltageMax = property_get_int32("ro.vibrator.hal.long.voltage", VOLTAGE_MAX);
+static constexpr char WAVEFORM_HEAVY_CLICK_EFFECT_SEQ[] = "1 1 1";
+
+static std::uint32_t freqPeriodFormula(std::uint32_t in) {
+    return 1000000000 / (24615 * in);
+}
+
+using utils::toUnderlying;
+
+Vibrator::Vibrator(std::unique_ptr<HwApi> hwapi)
+    : mHwApi(std::move(hwapi)) {
+    std::string autocal;
+    uint32_t lraPeriod;
+    bool dynamicConfig;
+
+    if (!mHwApi->setState(true)) {
+        ALOGE("Failed to set state (%d): %s", errno, strerror(errno));
+    }
+
+    if (dynamicConfig) {
+        uint32_t longFreqencyShift;
+        uint32_t shortVoltageMax, longVoltageMax;
+
+        mEffectConfig.reset(new VibrationConfig({
+                .shape = WaveShape::SINE,
+                .odClamp = shortVoltageMax,
+                .olLraPeriod = lraPeriod,
+        }));
+        mSteadyConfig.reset(new VibrationConfig({
+                .shape = WaveShape::SQUARE,
+                .odClamp = longVoltageMax,
+                // 1. Change long lra period to frequency
+                // 2. Get frequency': subtract the frequency shift from the frequency
+                // 3. Get final long lra period after put the frequency' to formula
+                .olLraPeriod = freqPeriodFormula(freqPeriodFormula(lraPeriod) - longFreqencyShift),
+        }));
+    } else {
+        mHwApi->setOlLraPeriod(lraPeriod);
+    }
+
     // This enables effect #1 from the waveform library to be triggered by SLPI
     // while the AP is in suspend mode
-    mLpTriggerEffect << 1 << std::endl;
-    if (!mLpTriggerEffect) {
+    if (!mHwApi->setLpTriggerEffect(1)) {
         ALOGW("Failed to set LP trigger mode (%d): %s", errno, strerror(errno));
     }
-    shouldBright = false;
 }
-Return<Status> Vibrator::on(uint32_t timeoutMs, bool isWaveform) {
-    mCtrlLoop << LOOP_MODE_OPEN << std::endl;
-    mDuration << timeoutMs << std::endl;
-    if (!mDuration) {
+
+ndk::ScopedAStatus Vibrator::getCapabilities(int32_t *_aidl_return) {
+    ATRACE_NAME("Vibrator::getCapabilities");
+    int32_t ret = 0;
+    if (mHwApi->hasRtpInput()) {
+        ret |= IVibrator::CAP_AMPLITUDE_CONTROL;
+    }
+    *_aidl_return = ret;
+    return ndk::ScopedAStatus::ok();
+}
+
+ndk::ScopedAStatus Vibrator::on(uint32_t timeoutMs, const char mode[],
+                                const std::unique_ptr<VibrationConfig> &config) {
+    LoopControl loopMode = LoopControl::OPEN;
+
+    // Open-loop mode is used for short click for over-drive
+    // Close-loop mode is used for long notification for stability
+    if (mode == RTP_MODE && timeoutMs > mCloseLoopThreshold) {
+        loopMode = LoopControl::CLOSE;
+    }
+
+    mHwApi->setCtrlLoop(toUnderlying(loopMode));
+    if (!mHwApi->setDuration(timeoutMs)) {
         ALOGE("Failed to set duration (%d): %s", errno, strerror(errno));
-        return Status::UNKNOWN_ERROR;
+        return ndk::ScopedAStatus::fromExceptionCode(EX_ILLEGAL_STATE);
     }
-    if (isWaveform) {
-        mMode << WAVEFORM_MODE << std::endl;
-        mLraWaveShape << SINE_WAVE << std::endl;
-        mOdClamp << mShortVoltageMax << std::endl;
-        mOlLraPeriod << mShortLraPeriod << std::endl;
-    } else {
-        mMode << RTP_MODE << std::endl;
-        mLraWaveShape << SQUARE_WAVE << std::endl;
-        mOdClamp << mLongVoltageMax << std::endl;
-        mOlLraPeriod << mLongLraPeriod << std::endl;
+
+    mHwApi->setMode(mode);
+    if (config != nullptr) {
+        mHwApi->setLraWaveShape(toUnderlying(config->shape));
+        mHwApi->setOdClamp(config->odClamp);
+        mHwApi->setOlLraPeriod(config->olLraPeriod);
     }
-    if (shouldBright) {
-        mBrightness << 1 << std::endl;
-    } else {
-        mBrightness << 0 << std::endl;
-        mActivate << 1 << std::endl;
-    }
-    if (!mActivate) {
+
+    if (!mHwApi->setActivate(1)) {
         ALOGE("Failed to activate (%d): %s", errno, strerror(errno));
-        return Status::UNKNOWN_ERROR;
+        return ndk::ScopedAStatus::fromExceptionCode(EX_ILLEGAL_STATE);
     }
-   return Status::OK;
+
+    return ndk::ScopedAStatus::ok();
 }
-Return<Status> Vibrator::on(uint32_t timeoutMs) {
-    shouldBright = false;
-    return on(timeoutMs, false /* isWaveform */);
+
+ndk::ScopedAStatus Vibrator::on(int32_t timeoutMs,
+                                const std::shared_ptr<IVibratorCallback> &callback) {
+    ATRACE_NAME("Vibrator::on");
+    if (callback) {
+        return ndk::ScopedAStatus::fromExceptionCode(EX_UNSUPPORTED_OPERATION);
+    }
+    return on(timeoutMs, RTP_MODE, mSteadyConfig);
 }
-Return<Status> Vibrator::off()  {
-    mActivate << 0 << std::endl;
-    mBrightness << 0 << std::endl;
-    if (!mActivate) {
+
+ndk::ScopedAStatus Vibrator::off() {
+    ATRACE_NAME("Vibrator::off");
+    if (!mHwApi->setActivate(0)) {
         ALOGE("Failed to turn vibrator off (%d): %s", errno, strerror(errno));
-        return Status::UNKNOWN_ERROR;
+        return ndk::ScopedAStatus::fromExceptionCode(EX_ILLEGAL_STATE);
     }
-    return Status::OK;
+    return ndk::ScopedAStatus::ok();
 }
-Return<bool> Vibrator::supportsAmplitudeControl()  {
-    return (mRtpInput ? true : false);
-}
-Return<Status> Vibrator::setAmplitude(uint8_t amplitude) {
-    if (amplitude == 0) {
-        return Status::BAD_VALUE;
+
+ndk::ScopedAStatus Vibrator::setAmplitude(float amplitude) {
+    ATRACE_NAME("Vibrator::setAmplitude");
+    if (amplitude <= 0.0f || amplitude > 1.0f) {
+        return ndk::ScopedAStatus::fromExceptionCode(EX_ILLEGAL_ARGUMENT);
     }
-    int32_t rtp_input =
-           std::round((amplitude - 1) / 254.0 * (MAX_RTP_INPUT - MIN_RTP_INPUT) +
-           MIN_RTP_INPUT);
-    mRtpInput << rtp_input << std::endl;
-    if (!mRtpInput) {
+
+    int32_t rtp_input = std::round(amplitude * (MAX_RTP_INPUT - MIN_RTP_INPUT) + MIN_RTP_INPUT);
+
+    if (!mHwApi->setRtpInput(rtp_input)) {
         ALOGE("Failed to set amplitude (%d): %s", errno, strerror(errno));
-        return Status::UNKNOWN_ERROR;
+        return ndk::ScopedAStatus::fromExceptionCode(EX_ILLEGAL_STATE);
     }
-    return Status::OK;
+
+    return ndk::ScopedAStatus::ok();
 }
-static uint8_t convertEffectStrength(EffectStrength strength) {
+
+ndk::ScopedAStatus Vibrator::setExternalControl(bool enabled) {
+    ATRACE_NAME("Vibrator::setExternalControl");
+    ALOGE("Not support in DRV2624 solution, %d", enabled);
+    return ndk::ScopedAStatus::fromExceptionCode(EX_UNSUPPORTED_OPERATION);
+}
+
+binder_status_t Vibrator::dump(int fd, const char **args, uint32_t numArgs) {
+    if (fd < 0) {
+        ALOGE("Called debug() with invalid fd.");
+        return STATUS_OK;
+    }
+
+    (void)args;
+    (void)numArgs;
+
+    dprintf(fd, "AIDL:\n");
+
+    dprintf(fd, "  Close Loop Thresh: %" PRIu32 "\n", mCloseLoopThreshold);
+    if (mSteadyConfig) {
+        dprintf(fd, "  Steady Shape: %" PRIu32 "\n", mSteadyConfig->shape);
+        dprintf(fd, "  Steady OD Clamp: %" PRIu32 "\n", mSteadyConfig->odClamp);
+        dprintf(fd, "  Steady OL LRA Period: %" PRIu32 "\n", mSteadyConfig->olLraPeriod);
+    }
+    if (mEffectConfig) {
+        dprintf(fd, "  Effect Shape: %" PRIu32 "\n", mEffectConfig->shape);
+        dprintf(fd, "  Effect OD Clamp: %" PRIu32 "\n", mEffectConfig->odClamp);
+        dprintf(fd, "  Effect OL LRA Period: %" PRIu32 "\n", mEffectConfig->olLraPeriod);
+    }
+    dprintf(fd, "  Click Duration: %" PRIu32 "\n", mClickDuration);
+    dprintf(fd, "  Tick Duration: %" PRIu32 "\n", mTickDuration);
+    dprintf(fd, "  Double Click Duration: %" PRIu32 "\n", mDoubleClickDuration);
+    dprintf(fd, "  Heavy Click Duration: %" PRIu32 "\n", mHeavyClickDuration);
+
+    dprintf(fd, "\n");
+
+    mHwApi->debug(fd);
+
+    dprintf(fd, "\n");
+
+    fsync(fd);
+    return STATUS_OK;
+}
+
+ndk::ScopedAStatus Vibrator::getSupportedEffects(std::vector<Effect> *_aidl_return) {
+    *_aidl_return = {Effect::TEXTURE_TICK, Effect::TICK, Effect::CLICK, Effect::HEAVY_CLICK,
+                     Effect::DOUBLE_CLICK};
+    return ndk::ScopedAStatus::ok();
+}
+
+ndk::ScopedAStatus Vibrator::perform(Effect effect, EffectStrength strength,
+                                     const std::shared_ptr<IVibratorCallback> &callback,
+                                     int32_t *_aidl_return) {
+    ATRACE_NAME("Vibrator::perform");
+    ndk::ScopedAStatus status;
+
+    if (callback) {
+        status = ndk::ScopedAStatus::fromExceptionCode(EX_UNSUPPORTED_OPERATION);
+    } else {
+        status = performEffect(effect, strength, _aidl_return);
+    }
+
+    return status;
+}
+
+static ndk::ScopedAStatus convertEffectStrength(EffectStrength strength, uint8_t *outScale) {
     uint8_t scale;
+
     switch (strength) {
-    case EffectStrength::LIGHT:
-        scale = 54; // 50%
-        break;
-    case EffectStrength::MEDIUM:
-    case EffectStrength::STRONG:
-        scale = 107; // 100%
-        break;
+        case EffectStrength::LIGHT:
+            scale = 127;  // 50%
+            break;
+        case EffectStrength::MEDIUM:
+            scale = 66;  // 100%
+            break;
+        case EffectStrength::STRONG:
+            scale = 0;  // 100%
+            break;
+        default:
+            return ndk::ScopedAStatus::fromExceptionCode(EX_UNSUPPORTED_OPERATION);
     }
-    return scale;
+
+    *outScale = scale;
+
+    return ndk::ScopedAStatus::ok();
 }
-Return<bool> Vibrator::supportsExternalControl() {
-    return false;
-}
-Return<Status> Vibrator::setExternalControl(bool) {
-    return Status::OK;
-}
-Return<void> Vibrator::perform(V1_0::Effect effect, EffectStrength strength, perform_cb _hidl_cb) {
-    return performEffect(static_cast<Effect>(effect), strength, _hidl_cb);
-}
-Return<void> Vibrator::perform_1_1(V1_1::Effect_1_1 effect, EffectStrength strength,
-        perform_cb _hidl_cb) {
-    return performEffect(static_cast<Effect>(effect), strength, _hidl_cb);
-}
-Return<void> Vibrator::perform_1_2(V1_2::Effect effect, EffectStrength strength, perform_cb _hidl_cb) {
-    return performEffect(static_cast<Effect>(effect), strength, _hidl_cb);
-}
-Return<void> Vibrator::perform_1_3(Effect effect, EffectStrength strength, perform_cb _hidl_cb) {
-    return performEffect(static_cast<Effect>(effect), strength, _hidl_cb);
-}
-Return<void> Vibrator::performEffect(Effect effect, EffectStrength strength, perform_cb _hidl_cb) {
-    Status status = Status::OK;
-    uint32_t timeMS;
+
+ndk::ScopedAStatus Vibrator::performEffect(Effect effect, EffectStrength strength,
+                                           int32_t *outTimeMs) {
+    ndk::ScopedAStatus status;
+    uint32_t timeMS = 0;
+    uint8_t scale;
+
     switch (effect) {
-    case Effect::CLICK:
-        mActivate << 0 << std::endl;
-        mIgnoreStore << 0 << std::endl;
-        mVmax << VMAX << std::endl;
-        mGain << GAIN << std::endl;
-        mSequencer << WAVEFORM_CLICK_EFFECT_SEQ0 << std::endl;
-        mSequencer << WAVEFORM_CLICK_EFFECT_SEQ1 << std::endl;
-        mCtrlLoop << "0 0x0" << std::endl;
-        shouldBright = true;
-        timeMS = mClickDuration;
-        break;
-    case Effect::DOUBLE_CLICK:
-        mActivate << 0 << std::endl;
-        mIgnoreStore << 0 << std::endl;
-        mVmax << VMAX << std::endl;
-        mGain << GAIN << std::endl;
-        mSequencer << WAVEFORM_DOUBLE_CLICK_EFFECT_SEQ << std::endl;
-        mCtrlLoop << "0 0x0" << std::endl;
-        mCtrlLoop << "1 0x1" << std::endl;
-        shouldBright = true;
-        timeMS = WAVEFORM_DOUBLE_CLICK_EFFECT_MS;
-        break;
-    case Effect::TICK:
-        mActivate << 0 << std::endl;
-        mIgnoreStore << 0 << std::endl;
-        mVmax << VMAX << std::endl;
-        mGain << GAIN << std::endl;
-        mSequencer << WAVEFORM_TICK_EFFECT_SEQ0 << std::endl;
-        mSequencer << WAVEFORM_TICK_EFFECT_SEQ1 << std::endl;
-        mCtrlLoop << "1 0x0" << std::endl;
-        shouldBright = true;
-        timeMS = mTickDuration;
-        break;
-    case Effect::HEAVY_CLICK:
-        mActivate << 0 << std::endl;
-        mIgnoreStore << 0 << std::endl; 
-        mDuration << 0 << std::endl;
-        mVmax << VMAX << std::endl;
-        mGain << GAIN << std::endl;
-        mSequencer << WAVEFORM_HEAVY_CLICK_EFFECT_SEQ0 << std::endl;
-        mSequencer << WAVEFORM_HEAVY_CLICK_EFFECT_SEQ1 << std::endl;
-        mCtrlLoop << "1 0x1" << std::endl;
-        shouldBright = true;
-        timeMS = mHeavyClickDuration;
-        break;
-    case Effect::POP:
-        mActivate << 0 << std::endl;
-        mIgnoreStore << 0 << std::endl;
-        mDuration << 0 << std::endl;
-        mVmax << VMAX << std::endl;
-        mGain << GAIN << std::endl;
-        shouldBright = true;
-        timeMS = 5;
-        break;
-    case Effect::THUD:
-        mActivate << 0 << std::endl;
-        mIgnoreStore << 0 << std::endl;
-        mDuration << 0 << std::endl;
-        mVmax << VMAX << std::endl;
-        mGain << GAIN << std::endl;
-        shouldBright = true;
-        timeMS = 10;
-        break;
-    // TODO for now use the same as CLICK
-    case Effect::TEXTURE_TICK:
-        mActivate << 0 << std::endl;
-        mIgnoreStore << 0 << std::endl;
-        mVmax << VMAX << std::endl;
-        mGain << GAIN << std::endl;
-        mSequencer << WAVEFORM_CLICK_EFFECT_SEQ0 << std::endl;
-        mSequencer << WAVEFORM_CLICK_EFFECT_SEQ1 << std::endl;
-        mCtrlLoop << "0 0x0" << std::endl;
-        shouldBright = true;
-        timeMS = mClickDuration;
-        break;
-    default:
-        _hidl_cb(Status::UNSUPPORTED_OPERATION, 0);
-        shouldBright = false;
-        return Void();
+        case Effect::TEXTURE_TICK:
+            mHwApi->setSequencer(WAVEFORM_TICK_EFFECT_SEQ);
+            timeMS = mTickDuration;
+            break;
+        case Effect::CLICK:
+            mHwApi->setSequencer(WAVEFORM_CLICK_EFFECT_SEQ);
+            timeMS = mClickDuration;
+            break;
+        case Effect::DOUBLE_CLICK:
+            mHwApi->setSequencer(WAVEFORM_DOUBLE_CLICK_EFFECT_SEQ);
+            timeMS = mDoubleClickDuration;
+            break;
+        case Effect::TICK:
+            mHwApi->setSequencer(WAVEFORM_TICK_EFFECT_SEQ);
+            timeMS = mTickDuration;
+            break;
+        case Effect::HEAVY_CLICK:
+            mHwApi->setSequencer(WAVEFORM_HEAVY_CLICK_EFFECT_SEQ);
+            timeMS = mHeavyClickDuration;
+            break;
+        default:
+            return ndk::ScopedAStatus::fromExceptionCode(EX_UNSUPPORTED_OPERATION);
     }
-    mScale << convertEffectStrength(strength) << std::endl;
-    on(timeMS, true /* isWaveform */);
-    _hidl_cb(status, timeMS);
-    return Void();
+
+    status = convertEffectStrength(strength, &scale);
+    if (!status.isOk()) {
+        return status;
+    }
+
+    mHwApi->setScale(scale);
+    status = on(timeMS, WAVEFORM_MODE, mEffectConfig);
+    if (!status.isOk()) {
+        return status;
+    }
+
+    *outTimeMs = timeMS;
+
+    return ndk::ScopedAStatus::ok();
 }
-} // namespace implementation
-}  // namespace V1_3
+
+ndk::ScopedAStatus Vibrator::getSupportedAlwaysOnEffects(std::vector<Effect> * /*_aidl_return*/) {
+    return ndk::ScopedAStatus::fromExceptionCode(EX_UNSUPPORTED_OPERATION);
+}
+
+ndk::ScopedAStatus Vibrator::alwaysOnEnable(int32_t /*id*/, Effect /*effect*/,
+                                            EffectStrength /*strength*/) {
+    return ndk::ScopedAStatus::fromExceptionCode(EX_UNSUPPORTED_OPERATION);
+}
+ndk::ScopedAStatus Vibrator::alwaysOnDisable(int32_t /*id*/) {
+    return ndk::ScopedAStatus::fromExceptionCode(EX_UNSUPPORTED_OPERATION);
+}
+
+ndk::ScopedAStatus Vibrator::getCompositionDelayMax(int32_t * /*maxDelayMs*/) {
+    return ndk::ScopedAStatus::fromExceptionCode(EX_UNSUPPORTED_OPERATION);
+}
+
+ndk::ScopedAStatus Vibrator::getCompositionSizeMax(int32_t * /*maxSize*/) {
+    return ndk::ScopedAStatus::fromExceptionCode(EX_UNSUPPORTED_OPERATION);
+}
+
+ndk::ScopedAStatus Vibrator::getSupportedPrimitives(
+        std::vector<CompositePrimitive> * /*supported*/) {
+    return ndk::ScopedAStatus::fromExceptionCode(EX_UNSUPPORTED_OPERATION);
+}
+
+ndk::ScopedAStatus Vibrator::getPrimitiveDuration(CompositePrimitive /*primitive*/,
+                                                  int32_t * /*durationMs*/) {
+    return ndk::ScopedAStatus::fromExceptionCode(EX_UNSUPPORTED_OPERATION);
+}
+
+ndk::ScopedAStatus Vibrator::compose(const std::vector<CompositeEffect> & /*composite*/,
+                                     const std::shared_ptr<IVibratorCallback> & /*callback*/) {
+    return ndk::ScopedAStatus::fromExceptionCode(EX_UNSUPPORTED_OPERATION);
+}
+
 }  // namespace vibrator
 }  // namespace hardware
 }  // namespace android
+}  // namespace aidl

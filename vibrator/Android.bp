@@ -12,27 +12,57 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-cc_binary {
-    name: "android.hardware.vibrator@1.3-service.oneplus8pro",
-    stem: "android.hardware.vibrator@1.3-service.oneplus8pro",
-    relative_install_path: "hw",
-    product_specific: true,
-    init_rc: ["android.hardware.vibrator@1.3-service.oneplus8pro.rc"],
-    srcs: ["service.cpp", "Vibrator.cpp"],
-    cflags: ["-Wall", "-Werror"],
-    shared_libs: [
-        "libhidlbase",
-        "libcutils",
-        "liblog",
-        "libhardware",
-        "android.hardware.vibrator@1.0",
-        "android.hardware.vibrator@1.1",
-        "android.hardware.vibrator@1.2",
-        "android.hardware.vibrator@1.3",
+cc_library {
+    name: "android.hardware.vibrator-impl.oneplus8",
+    srcs: [
+        "Vibrator.cpp",
+        "HardwareBase.cpp",
     ],
-    static_libs: [
+    export_include_dirs: ["."],
+    proprietary: false,
+    product_specific: true,
+    visibility: [":__subpackages__"],
+    cflags: [
+        "-DATRACE_TAG=(ATRACE_TAG_VIBRATOR | ATRACE_TAG_HAL)",
+        "-DLOG_TAG=\"android.hardware.vibrator-oneplus8\"",
+    ],
+    target: {
+        android: {
+            // TODO: Add sensor stub for tests.
+        },
+//        vendor: {
+//            shared_libs: [
+//                "libsensorndkbridge",
+//            ],
+//        }
+    },
+    shared_libs: [
+        "android.hardware.vibrator-ndk_platform",
+        "libbase",
+        "libbinder_ndk",
+        "libcutils",
+        "libhardware",
+        "liblog",
         "libutils",
     ],
-
+}
+cc_binary {
+    name: "android.hardware.vibrator-service.oneplus8",
+    stem: "android.hardware.vibrator-service.oneplus8",
+    relative_install_path: "hw",
+    product_specific: true,
+    init_rc: ["android.hardware.vibrator-service.oneplus8.rc"],
+//    vintf_fragments: ["android.hardware.vibrator-service.oneplus8.xml"],
+    srcs: ["service.cpp"],
+//    cflags: ["-Wall", "-Werror"],
+    static_libs: ["android.hardware.vibrator-impl.oneplus8"],
     proprietary: false,
+    shared_libs: [
+        "libcutils",
+        "libutils",
+        "libbase",
+        "liblog",
+        "libbinder_ndk",
+        "android.hardware.vibrator-ndk_platform",
+    ],
 }

@@ -77,7 +77,6 @@ void vendor_load_properties()
 //    property_override("ro.build.date.utc", "1593689840");
 //    property_override("ro.build.id", "QKQ1.191222.002");
 //    property_override("ro.build.kernel.id", "4.19-G2007021957");
-    property_override("ro.boot.flash.locked", "1");
     property_override("ro.boot.verifiedbootstate", "green");
     property_override("ro.boot.warranty_bit", "0");
     property_override("ro.warranty_bit", "0");

@@ -6,6 +6,6 @@ import java.util.Map;
 public class OpFeatures {
 
     public static boolean isSupport(int[] array) {
-        return false;
+        return true;
     }
 }
