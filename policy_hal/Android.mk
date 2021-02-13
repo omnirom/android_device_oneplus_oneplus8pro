@@ -1,5 +1,3 @@
-ifeq ($(TARGET_DEVICE),$(filter $(TARGET_DEVICE),oneplus8pro oneplus8t))
-
 ifneq ($(USE_LEGACY_AUDIO_POLICY), 1)
 ifeq ($(USE_CUSTOM_AUDIO_POLICY), 1)
 LOCAL_PATH := $(call my-dir)
@@ -81,6 +79,5 @@ LOCAL_MODULE := libaudiopolicymanager
 
 include $(BUILD_SHARED_LIBRARY)
 
-endif
 endif
 endif

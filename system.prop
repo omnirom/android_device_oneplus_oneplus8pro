@@ -213,6 +213,12 @@ persist.camera.assert.panic=true
 # rad.yeh@NETWORK, 2020/08/25, add property to disable ims library logs
 persist.vendor.ims.disableADBLogs=1
 #endif
+
+# ifdef VENDOR_EDIT
+# kane.gao@Display, 2020/09/07, add property to enable UGD feature
+ro.gfx.driver.0=com.oneplus.gpudrivers.kona.api30
+ro.gfx.driver.1=com.qualcomm.qti.gpudrivers.kona.api30
+# endif
 # end of vendor/oneplus/configs/qssi/system.prop
 
 
@@ -227,6 +233,8 @@ ro.apex.updatable=true
 ro.camera.notify_nfc=0
 ro.boot.project_name=19811
 ro.vendor.boot.project_name=19811
+ro.boot.project_codename=instantnoodlep
+ro.vendor.boot.project_codename=instantnoodlep
 persist.data.iwlan.enable=true
 
 #persist.sys.camera.preview.size=1920x1080

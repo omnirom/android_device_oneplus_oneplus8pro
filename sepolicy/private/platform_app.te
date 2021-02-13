@@ -26,3 +26,7 @@ allow platform_app app_data_file:file execute;
 
 allow platform_app vendor_sysfs_battery_supply:dir { search read open };
 allow platform_app vendor_sysfs_battery_supply:file r_file_perms;
+
+type ParamService, service_manager_type;
+allow platform_app ParamService:service_manager find;
+

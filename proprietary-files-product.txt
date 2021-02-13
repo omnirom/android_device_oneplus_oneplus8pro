@@ -36,8 +36,8 @@ system_ext/lib64/libaudiotest.so
 system_ext/lib64/libaudiotest_jni.so
 system_ext/lib64/libavenhancements.so
 system_ext/lib64/libbinauralrenderer_wrapper.qti.so
-system_ext/lib64/libbluetooth_qti.so
-system_ext/lib64/libbtconfigstore.so
+#system_ext/lib64/libbluetooth_qti.so
+#system_ext/lib64/libbtconfigstore.so
 system_ext/lib64/libcdsprpc_system.so
 system_ext/lib64/libcryptfs_hw.so
 system_ext/lib64/libcvp_common_system.so
@@ -98,8 +98,6 @@ system_ext/lib64/liboissrtest_jni.so
 system_ext/lib64/libop_os_debug.so
 system_ext/lib64/libopdiagnose.so
 system_ext/lib64/libopdiagnoseservice.so
-system_ext/lib64/libopf.so
-system_ext/lib64/libozoaudiodecoder.so
 system_ext/lib64/libozoaudioutils.so
 system_ext/lib64/libqcc.so
 system_ext/lib64/libqcc_file_agent_sys.so
@@ -418,8 +416,8 @@ system_ext/lib/libQSEEComAPI_system.so
 system_ext/lib/libScenescape.so
 system_ext/lib/libadsprpc_system.so
 system_ext/lib/libbinauralrenderer_wrapper.qti.so
-system_ext/lib/libbluetooth_qti.so
-system_ext/lib/libbtconfigstore.so
+#system_ext/lib/libbluetooth_qti.so
+#system_ext/lib/libbtconfigstore.so
 system_ext/lib/libcdsprpc_system.so
 system_ext/lib/libcvp_common_system.so
 system_ext/lib/libcvpcpuRev_skel_system.so
@@ -465,8 +463,6 @@ system_ext/lib/liboissrtest_jni.so
 system_ext/lib/libop_os_debug.so
 system_ext/lib/libopdiagnose.so
 system_ext/lib/libopdiagnoseservice.so
-system_ext/lib/libopf.so
-system_ext/lib/libozoaudiodecoder.so
 system_ext/lib/libozoaudioutils.so
 system_ext/lib/libqcc.so
 system_ext/lib/libqcc_file_agent_sys.so
@@ -756,7 +752,7 @@ system_ext/etc/init/vendor.qti.hardware.qccsyshal@1.0-service.rc
 -system_ext/priv-app/ims/ims.apk
 -system_ext/priv-app/dpmserviceapp/dpmserviceapp.apk
 -system_ext/priv-app/qcrilmsgtunnel/qcrilmsgtunnel.apk
--system_ext/priv-app/CameraPicProcService/CameraPicProcService.apk
+-system_ext/priv-app/OnePlusCamera/OnePlusCamera.apk
 -system_ext/priv-app/com.qualcomm.location/com.qualcomm.location.apk
 -system_ext/priv-app/WfdService/WfdService.apk
 #./system_ext/priv-app/OPOmm/OPOmm.apk
@@ -784,3 +780,4 @@ product/etc/permissions/privapp-permissions-oem-product.xml
 -product/overlay/GooglePermissionControllerOverlay.apk
 -product/overlay/GoogleDocumentsUIOverlay.apk
 
+system_ext/etc/permissions/com.oneplus.camera.xml

@@ -29,7 +29,10 @@ PRODUCT_PACKAGES += \
     libcutils \
     libtflite \
     libtextclassifier_hash \
-    libavservices_minijail
+    libavservices_minijail \
+    libmediaplayerservice \
+    libbluetooth_qti \
+    libbtconfigstore
 
 PRODUCT_PACKAGES += \
     libinit_oneplus8pro \
@@ -107,6 +110,9 @@ PRODUCT_PACKAGES += \
     libgralloc.qti \
     vendor.qti.hardware.systemhelper@1.0 \
     android.hardware.thermal@2.0
+
+PRODUCT_PACKAGES += com.qualcomm.qti.bluetooth_audio@1.0
+PRODUCT_PACKAGES += vendor.qti.hardware.btconfigstore@1.0
 
 PRODUCT_AAPT_CONFIG := xxxhdpi
 PRODUCT_AAPT_PREF_CONFIG := xxxhdpi
@@ -222,6 +228,7 @@ PRODUCT_PACKAGES += DeskClock
 PRODUCT_PACKAGES += qtiImsInCallUi
 PRODUCT_PACKAGES += ConfURIDialer
 PRODUCT_PACKAGES += android.hardware.vibrator-service.oneplus8
+PRODUCT_PACKAGES += libqtivibratoreffect
 
 ifneq ($(filter $(ROM_BUILD_RADIO), true),)
 AB_OTA_PARTITIONS += abl
@@ -250,4 +257,13 @@ AB_OTA_PARTITIONS += xbl
 endif
 
 $(call inherit-product, build/make/target/product/gsi_keys.mk)
+
+PRODUCT_COPY_FILES += \
+    device/qcom/qssi/public.libraries.product-qti.txt:$(TARGET_COPY_OUT_PRODUCT)/etc/public.libraries-qti.txt
+PRODUCT_COPY_FILES += \
+    device/qcom/qssi/public.libraries.system_ext-qti.txt:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/public.libraries-qti.txt
+# whitelisted app
+PRODUCT_COPY_FILES += \
+    device/qcom/qssi/qti_whitelist.xml:system/etc/sysconfig/qti_whitelist.xml \
+    device/qcom/qssi/qti_whitelist_system_ext.xml:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/sysconfig/qti_whitelist_system_ext.xml
 

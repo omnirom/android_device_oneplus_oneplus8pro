@@ -107,12 +107,12 @@ PRODUCT_MODEL := IN2023
 TARGET_DEVICE := OnePlus8Pro
 PRODUCT_SYSTEM_NAME := OnePlus8Pro
 
-VENDOR_RELEASE := 11/RP1A.201005.001/2011010100:user/release-keys
+VENDOR_RELEASE := 11/RP1A.201005.001/2102011800:user/release-keys
 BUILD_FINGERPRINT := OnePlus/OnePlus8Pro_EEA/OnePlus8Pro:$(VENDOR_RELEASE)
 OMNI_BUILD_FINGERPRINT := OnePlus/OnePlus8Pro_EEA/OnePlus8Pro:$(VENDOR_RELEASE)
-OMNI_PRIVATE_BUILD_DESC := "'OnePlus8Pro-user 11 RP1A.201005.001 2011010100'"
+OMNI_PRIVATE_BUILD_DESC := "'OnePlus8Pro-user 11 RP1A.201005.001 2102011800'"
 
-PLATFORM_SECURITY_PATCH_OVERRIDE := 2020-10-01
+PLATFORM_SECURITY_PATCH_OVERRIDE := 2021-01-01
 
 TARGET_VENDOR := oneplus
 
@@ -122,14 +122,17 @@ PRODUCT_ENFORCE_RRO_TARGETS :=
 PRODUCT_ENFORCE_RRO_EXCLUDED_OVERLAYS := framework-res
 PRODUCT_ENFORCE_RRO_EXEMPTED_TARGETS := vendor
 
+PRODUCT_ARTIFACT_PATH_REQUIREMENT_IGNORE_PATHS := /system/system_ext/
 DISABLE_ARTIFACT_PATH_REQUIREMENTS := true
+PRODUCT_ENFORCE_ARTIFACT_PATH_REQUIREMENTS := true
 TARGET_SKIP_OTATOOLS_PACKAGE := false
 
 BOARD_PREBUILT_VENDORIMAGE := vendor/image/oneplus/oneplus8pro/vendor.img
 BOARD_PREBUILT_ODMIMAGE := vendor/image/oneplus/oneplus8pro/odm.img
 
-$(call inherit-product, device/oneplus/oneplus8pro/qssi_whitelist.mk)
+PRODUCT_SOONG_NAMESPACES += device/oneplus/oneplus8pro
+PRODUCT_SOONG_NAMESPACES += vendor/oneplus/oneplus8pro
+PRODUCT_SOONG_NAMESPACES += vendor/qcom/opensource/commonsys/packages/apps/Bluetooth
 
 $(call inherit-product, vendor/oneplus/oneplus8pro/oneplus8pro-vendor.mk)
-
 $(call inherit-product, device/oneplus/oneplus8pro/op8pro.mk)

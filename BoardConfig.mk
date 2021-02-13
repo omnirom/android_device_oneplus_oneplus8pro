@@ -21,13 +21,8 @@
 BOARD_PATH := device/oneplus/oneplus8pro
 include $(BOARD_PATH)/BoardConfigGsi.mk
 
-PRODUCT_SOONG_NAMESPACES += $(BOARD_PATH)
-ifeq ($(TARGET_DEVICE),oneplus8pro)
-PRODUCT_SOONG_NAMESPACES += vendor/oneplus/oneplus8pro
-else
-PRODUCT_SOONG_NAMESPACES += vendor/oneplus/oneplus8t
-endif
-PRODUCT_SOONG_NAMESPACES += vendor/qcom/opensource/commonsys/packages/apps/Bluetooth
+BUILD_BROKEN_DUP_RULES := true
+BUILD_BROKEN_USES_BUILD_PREBUILT := true
 
 TARGET_INIT_VENDOR_LIB := //$(BOARD_PATH):libinit_oneplus8pro
 PRODUCT_FULL_TREBLE := false
@@ -37,6 +32,9 @@ TARGET_NO_KERNEL := false
 BOARD_USES_VENDORIMAGE := true
 TARGET_MOUNT_POINTS_SYMLINKS := true
 
+SOONG_CONFIG_NAMESPACES += aosp_vs_qva
+SOONG_CONFIG_aosp_vs_qva += aosp_or_qva
+SOONG_CONFIG_aosp_vs_qva_aosp_or_qva := qva
 
 # Split selinux policy
 PRODUCT_SEPOLICY_SPLIT := true
