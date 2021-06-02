@@ -21,7 +21,7 @@ import android.os.Parcel
 import android.os.ServiceManager
 
 object Utils {
-    private val fpsMap = mapOf(120 to 0, 60 to 1)
+    private val fpsMap = mapOf(120 to 1, 60 to 0)
     fun changeFps(sharedPreferences: SharedPreferences, fps: Int) {
         // Display
         val surfaceFlinger = ServiceManager.getService("SurfaceFlinger")
