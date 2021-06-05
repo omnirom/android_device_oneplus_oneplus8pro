@@ -45,6 +45,7 @@ public class DozeSettings extends PreferenceFragment  {
     private static final String KEY_POCKET_CHECK = "pocket_check";
     private static final String KEY_FOOTER = "footer";
     private static final boolean sIsOnePlus8pro = android.os.Build.DEVICE.equals("OnePlus8Pro");
+    private static final boolean sIsOnePlus8t = android.os.Build.DEVICE.equals("OnePlus8T");
 
     private boolean mUseTiltCheck;
     private boolean mUseSingleTap;
@@ -87,7 +88,7 @@ public class DozeSettings extends PreferenceFragment  {
                 return true;
             }
         });
-        if (!sIsOnePlus8pro) {
+        if (!sIsOnePlus8pro && !sIsOnePlus8t) {
             getPreferenceScreen().removePreference(waveSwitch);
         }
         TwoStatePreference pocketSwitch = (TwoStatePreference) findPreference(KEY_POCKET_CHECK);
@@ -100,7 +101,7 @@ public class DozeSettings extends PreferenceFragment  {
                 return true;
             }
         });
-        if (!sIsOnePlus8pro) {
+        if (!sIsOnePlus8pro && !sIsOnePlus8t) {
             getPreferenceScreen().removePreference(pocketSwitch);
         }
         Preference footer = findPreference(KEY_FOOTER);
@@ -116,7 +117,7 @@ public class DozeSettings extends PreferenceFragment  {
             String[] parts = value.split(":");
             mUseTiltCheck = Boolean.valueOf(parts[0]);
             mUseSingleTap = Boolean.valueOf(parts[1]);
-            if (sIsOnePlus8pro) {
+            if (sIsOnePlus8pro || sIsOnePlus8t) {
                 if (parts.length >= 3) {
                     mUseWaveCheck = Boolean.valueOf(parts[2]);
                 }
