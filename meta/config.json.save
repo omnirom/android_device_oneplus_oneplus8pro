@@ -1,8 +1,8 @@
 {
-    "model": "OnePlus 7 Pro",
+    "model": "OnePlus 8 Pro",
     "pageUrl":"https://dl.omnirom.org/oneplus8pro",
     "make": "OnePlus",
     "image": "meta/device_image.jpg",
-    "state": "official",
+    "state": "unofficial",
     "device": "oneplus8pro"
 }
