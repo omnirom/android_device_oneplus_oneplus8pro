@@ -113,6 +113,8 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES += com.qualcomm.qti.bluetooth_audio@1.0
 PRODUCT_PACKAGES += vendor.qti.hardware.btconfigstore@1.0
+PRODUCT_PACKAGES += vendor.qti.hardware.capabilityconfigstore@1.0 \
+    vendor.qti.hardware.capabilityconfigstore-V1.0-java
 
 PRODUCT_AAPT_CONFIG := xxxhdpi
 PRODUCT_AAPT_PREF_CONFIG := xxxhdpi
