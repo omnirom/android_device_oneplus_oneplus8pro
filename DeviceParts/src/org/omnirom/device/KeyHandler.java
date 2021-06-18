@@ -95,7 +95,7 @@ public class KeyHandler implements DeviceKeyHandler {
     private static final int HANDWAVE_MAX_DELTA_MS = 1000;
     private static final int POCKET_MIN_DELTA_MS = 5000;
 
-    private static final boolean sIsOnePlus8pro = android.os.Build.DEVICE.equals("OnePlus8Pro");
+    private static final boolean sIsOnePlus8pro = android.os.Build.DEVICE.equalsIgnoreCase("oneplus8pro");
 
     public static final String CLIENT_PACKAGE_NAME = "com.oneplus.camera";
     public static final String CLIENT_PACKAGE_PATH = "/data/misc/omni/client_package_name";
@@ -152,6 +152,7 @@ public class KeyHandler implements DeviceKeyHandler {
     private boolean mProxyWasNear;
     private long mProxySensorTimestamp;
     private Sensor mOpPocketSensor;
+    private Sensor mOpProxiSensor;
     private boolean mUseSingleTap;
     private boolean mDispOn;
     private ClientPackageNameObserver mClientObserver;
@@ -161,6 +162,7 @@ public class KeyHandler implements DeviceKeyHandler {
     private boolean mToggleTorch;
     private boolean mTorchState;
     private boolean mDoubleTapToWake;
+    private boolean mProxiSensorWakupCheck;
 
     private SensorEventListener mPocketProximitySensor = new SensorEventListener() {
         @Override
@@ -192,7 +194,7 @@ public class KeyHandler implements DeviceKeyHandler {
     private SensorEventListener mProximitySensor = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent event) {
-            mProxyIsNear = event.values[0] == 1;
+            mProxyIsNear = getCustomProxiIsNear(event);
             if (DEBUG_SENSOR) Log.i(TAG, "mProxyIsNear = " + mProxyIsNear);
         }
 
@@ -251,7 +253,7 @@ public class KeyHandler implements DeviceKeyHandler {
         public void update() {
             mUseProxiCheck = Settings.System.getIntForUser(
                     mContext.getContentResolver(), Settings.System.OMNI_DEVICE_PROXI_CHECK_ENABLED, 1,
-                    UserHandle.USER_CURRENT) == 1;
+                    UserHandle.USER_CURRENT) == 1 && mProxiSensorWakupCheck;
             mDoubleTapToWake = Settings.Secure.getIntForUser(
                     mContext.getContentResolver(), Settings.Secure.DOUBLE_TAP_TO_WAKE, 0,
                     UserHandle.USER_CURRENT) == 1;
@@ -281,6 +283,7 @@ public class KeyHandler implements DeviceKeyHandler {
     };
 
     public KeyHandler(Context context) {
+        if (DEBUG) Log.i(TAG, "device = " + android.os.Build.DEVICE);
         mContext = context;
         mDispOn = true;
         mPowerManager = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
@@ -292,6 +295,7 @@ public class KeyHandler implements DeviceKeyHandler {
         mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
         mSensorManager = (SensorManager) mContext.getSystemService(Context.SENSOR_SERVICE);
         mTiltSensor = getSensor(mSensorManager, "oneplus.sensor.op_motion_detect");
+        mOpProxiSensor = getSensor(mSensorManager, getCustomProxiSensor());
         mOpPocketSensor = getSensor(mSensorManager, "oneplus.sensor.pocket");
         IntentFilter systemStateFilter = new IntentFilter(Intent.ACTION_SCREEN_ON);
         systemStateFilter.addAction(Intent.ACTION_SCREEN_OFF);
@@ -318,11 +322,13 @@ public class KeyHandler implements DeviceKeyHandler {
 
             }
         }).startObserving("DEVPATH=/devices/platform/soc/soc:tri_state_key");
+
         isOPCameraAvail = PackageUtils.isAvailableApp("com.oneplus.camera", context);
         if (isOPCameraAvail) {
             mClientObserver = new ClientPackageNameObserver(CLIENT_PACKAGE_PATH);
             mClientObserver.startWatching();
         }
+        mProxiSensorWakupCheck = context.getResources().getBoolean(com.android.internal.R.bool.config_proxiSensorWakupCheck);
     }
 
     @Override
@@ -426,8 +432,21 @@ public class KeyHandler implements DeviceKeyHandler {
     private void onDisplayOn() {
         if (DEBUG) Log.i(TAG, "Display on");
 
-        if (DEBUG_SENSOR) Log.i(TAG, "Unregister pocket sensor");
-        mSensorManager.unregisterListener(mPocketProximitySensor, mOpPocketSensor);
+        if (mUseProxiCheck) {
+            if (DEBUG_SENSOR) Log.i(TAG, "Unregister proxi sensor");
+            mSensorManager.unregisterListener(mProximitySensor, mOpProxiSensor);
+        }
+
+        if (mUsePocketCheck || mUseWaveCheck) {
+            if (DEBUG_SENSOR) Log.i(TAG, "Unregister pocket sensor");
+            mSensorManager.unregisterListener(mPocketProximitySensor, mOpPocketSensor);
+        }
+
+        if (mUseTiltCheck) {
+            if (DEBUG_SENSOR) Log.i(TAG, "Unregister tilt sensor");
+            mSensorManager.unregisterListener(mTiltSensorListener, mTiltSensor);
+        }
+
         if ((mClientObserver == null) && (isOPCameraAvail)) {
             mClientObserver = new ClientPackageNameObserver(CLIENT_PACKAGE_PATH);
             mClientObserver.startWatching();
@@ -453,7 +472,7 @@ public class KeyHandler implements DeviceKeyHandler {
         if (DEBUG) Log.i(TAG, "Display off");
         if (mUseProxiCheck) {
             if (DEBUG_SENSOR) Log.i(TAG, "Register proxi sensor ");
-            mSensorManager.registerListener(mProximitySensor, mOpPocketSensor,
+            mSensorManager.registerListener(mProximitySensor, mOpProxiSensor,
                     SensorManager.SENSOR_DELAY_NORMAL);
         }
         if (mUsePocketCheck || mUseWaveCheck) {
@@ -463,6 +482,7 @@ public class KeyHandler implements DeviceKeyHandler {
             mProxySensorTimestamp = SystemClock.elapsedRealtime();
         }
         if (mUseTiltCheck) {
+            if (DEBUG_SENSOR) Log.i(TAG, "Register tilt sensor ");
             mSensorManager.registerListener(mTiltSensorListener, mTiltSensor,
                     SensorManager.SENSOR_DELAY_NORMAL);
         }
@@ -470,7 +490,6 @@ public class KeyHandler implements DeviceKeyHandler {
             mClientObserver.stopWatching();
             mClientObserver = null;
         }
-
     }
 
     private int getSliderAction(int position) {
@@ -666,7 +685,7 @@ public class KeyHandler implements DeviceKeyHandler {
 
     @Override
     public String getCustomProxiSensor() {
-        return "com.oneplus.pocket";
+        return "oneplus.sensor.pocket";
     }
 
     private class ClientPackageNameObserver extends FileObserver {
