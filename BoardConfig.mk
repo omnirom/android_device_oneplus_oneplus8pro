@@ -21,8 +21,13 @@
 BOARD_PATH := device/oneplus/oneplus8pro
 include $(BOARD_PATH)/BoardConfigGsi.mk
 
-#BUILD_BROKEN_DUP_RULES := true
-#BUILD_BROKEN_USES_BUILD_PREBUILT := true
+PRODUCT_SOONG_NAMESPACES := $(BOARD_PATH)
+PRODUCT_SOONG_NAMESPACES += $(BOARD_PATH)/gpt-utils
+ifeq ($(TARGET_DEVICE),oneplus8pro)
+PRODUCT_SOONG_NAMESPACES += vendor/oneplus/oneplus8pro
+endif
+PRODUCT_SOONG_NAMESPACES += vendor/qcom/opensource/commonsys/packages/apps/Bluetooth
+PRODUCT_SOONG_NAMESPACES += vendor/qcom/opensource/commonsys/system/bt/conf
 
 TARGET_INIT_VENDOR_LIB := //$(BOARD_PATH):libinit_oneplus8pro
 PRODUCT_FULL_TREBLE := false

@@ -130,9 +130,5 @@ TARGET_SKIP_OTATOOLS_PACKAGE := false
 BOARD_PREBUILT_VENDORIMAGE := vendor/image/oneplus/oneplus8pro/vendor.img
 BOARD_PREBUILT_ODMIMAGE := vendor/image/oneplus/oneplus8pro/odm.img
 
-PRODUCT_SOONG_NAMESPACES += device/oneplus/oneplus8pro
-PRODUCT_SOONG_NAMESPACES += vendor/oneplus/oneplus8pro
-PRODUCT_SOONG_NAMESPACES += vendor/qcom/opensource/commonsys/packages/apps/Bluetooth
-
 $(call inherit-product, vendor/oneplus/oneplus8pro/oneplus8pro-vendor.mk)
 $(call inherit-product, device/oneplus/oneplus8pro/op8pro.mk)
