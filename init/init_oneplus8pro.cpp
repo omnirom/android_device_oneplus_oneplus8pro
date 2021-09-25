@@ -67,11 +67,11 @@ void vendor_load_properties()
     LOG(INFO) << name;
 
     if (name == "OnePlus8T_EEA") {
-        property_override("ro.build.fingerprint", "OnePlus/OnePlus8T_EEA/OnePlus8T:11/RP1A.201005.001/2105181810:user/release-keys");
-        property_override("ro.system.build.fingerprint", "OnePlus/OnePlus8T_EEA/OnePlus8T:11/RP1A.201005.001/2105181810:user/release-keys");
-        property_override("ro.system_ext.build.fingerprint", "OnePlus/OnePlus8T_EEA/OnePlus8T:11/RP1A.201005.001/2105181810:user/release-keys");
-        property_override("ro.product.build.fingerprint", "OnePlus/OnePlus8T_EEA/OnePlus8T:11/RP1A.201005.001/2105181810:user/release-keys");
-        property_override("ro.build.description", "OnePlus8T_EEA-user 11 RP1A.201005.001 2105181810 release-keys");
+        property_override("ro.build.fingerprint", "OnePlus/OnePlus8T_EEA/OnePlus8T:11/RP1A.201005.001/2107310129:user/release-keys");
+        property_override("ro.system.build.fingerprint", "OnePlus/OnePlus8T_EEA/OnePlus8T:11/RP1A.201005.001/2107310129:user/release-keys");
+        property_override("ro.system_ext.build.fingerprint", "OnePlus/OnePlus8T_EEA/OnePlus8T:11/RP1A.201005.001/2107310129:user/release-keys");
+        property_override("ro.product.build.fingerprint", "OnePlus/OnePlus8T_EEA/OnePlus8T:11/RP1A.201005.001/2107310129:user/release-keys");
+        property_override("ro.build.description", "OnePlus8T_EEA-user 11 RP1A.201005.001 2107310129 release-keys");
         property_override("ro.product.system_ext.model", "KB2005");
         property_override("ro.product.product.model", "KB2005");
         property_override("ro.product.system.name", "OnePlus8T_EEA");
